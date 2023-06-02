@@ -9,7 +9,9 @@
     "preview": "vite preview"
   },
   "devDependencies": {
+    "postcss": "^8.4.24",
     "postcss-load-config": "^4.0.1",
+    "postcss-nested": "^6.0.1",
     "typescript": "^5.0.2",
     "vite": "^4.3.9"
   },
@@ -17,6 +19,7 @@
     "eslint": "^8.41.0",
     "postcss-nesting": "^11.2.2",
     "postcss-plugin": "^1.0.0",
+    "postcss-scss": "^4.0.6",
     "sugarss": "^4.0.1"
   }
 }

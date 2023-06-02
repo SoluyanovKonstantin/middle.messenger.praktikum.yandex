@@ -5,8 +5,9 @@ export default {
     rollupOptions: {
       input: {
         main: resolve(__dirname, 'index.html'),
-        admin: resolve(__dirname, 'src/components/auth/auth.html'),
-      }
-    }
+        auth: resolve(__dirname, 'src/components/auth/auth.html'),
+        registration: resolve(__dirname, 'src/components/registration/registration.html'),
+      },
+    },
   }
 }
