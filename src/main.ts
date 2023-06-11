@@ -9,16 +9,20 @@ function setTemplateToPage(template: {template:string, style: string}) {
 }
 
 if (document.URL.includes('registration')) {
-  import('./components/registration/registration').then(page => {
+  import('./pages/registration/registration').then(page => {
     setTemplateToPage(page);
     console.log((window as any).foo);
   })
 } else if (document.URL.includes('auth')) {
-  import('./components/auth/auth').then(page => {
+  import('./pages/auth/auth').then(page => {
     setTemplateToPage(page);
   })
 } else if (document.URL.includes('chat')) {
-  import('./components/chats/chat').then(page => {
+  import('./pages/chats/chat').then(page => {
+    setTemplateToPage(page);
+  })
+} else if (document.URL.includes('error')) {
+  import('./pages/error/error').then(page => {
     setTemplateToPage(page);
   })
 } else {
