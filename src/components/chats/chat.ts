@@ -1,10 +1,7 @@
 import { TemplateEngine } from './../../../lib/templateEngine';
-import template from './chat.html?inline';
-import style from './chat.css?inline';
+import html from './chat.html?inline';
+import css from './chat.css?inline';
 
-let t = (new TemplateEngine(template, style)).compile({ message: 'Последнее сообщение из ...', fullMessage: 'Полное сообщение' });
+const { template, style } = (new TemplateEngine(html, css)).compile({ message: 'Последнее сообщение из ...', fullMessage: 'Полное сообщение' });
 
-export { 
-    t as template,
-    style
-};
+export { template, style };

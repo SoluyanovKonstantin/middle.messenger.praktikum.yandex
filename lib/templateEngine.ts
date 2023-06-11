@@ -8,13 +8,13 @@ export class TemplateEngine {
     }
 
     compile(variables: { [key: string]: string  }) {
-        const regExp = /\{\{.*?\}\}/g;
+        const variableInTemplateRegExp = /\{\{.*?\}\}/g;
         
-        this.template.match(regExp)?.forEach(key => {
+        this.template.match(variableInTemplateRegExp)?.forEach(key => {
             const trimmedKeyWithoutBracket = key.replaceAll(/\{\{ | \}\}/g, '');
             this.template = this.template.replace(key, variables[trimmedKeyWithoutBracket]);
         })
 
-        return this.template;
+        return {template: this.template, style: this.style};
     }
 }

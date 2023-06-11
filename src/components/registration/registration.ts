@@ -1,4 +1,7 @@
-import template from './registration.html?inline';
-import style from './registration.css?inline';
+import html from './registration.html?inline';
+import css from './registration.css?inline';
+import { TemplateEngine } from '../../../lib/templateEngine';
 
-export {template, style};
+const { template, style } = (new TemplateEngine(html, css)).compile({});
+
+export { template, style };
