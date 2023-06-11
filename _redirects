@@ -1,1 +1,4 @@
+/*.js /dist/assets/:splat
+/*.css /dist/assets/:splat
+/*.svg /dist/assets/:splat
 /* /dist/index.html 200
