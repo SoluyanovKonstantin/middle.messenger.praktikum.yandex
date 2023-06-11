@@ -13,16 +13,14 @@ if (document.URL.includes('registration')) {
     setTemplateToPage(page);
     console.log((window as any).foo);
   })
-}
-
-if (document.URL.includes('auth')) {
+} else if (document.URL.includes('auth')) {
   import('./components/auth/auth').then(page => {
     setTemplateToPage(page);
   })
-}
-
-if (document.URL.includes('chat')) {
+} else if (document.URL.includes('chat')) {
   import('./components/chats/chat').then(page => {
     setTemplateToPage(page);
   })
+} else {
+  window.location.href = '/auth';
 }
