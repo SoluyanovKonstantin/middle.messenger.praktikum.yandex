@@ -1,4 +1,2 @@
-/*.js /dist/assets/:splat 200
-/*.css /dist/assets/:splat 200
-/*.svg /dist/assets/:splat 200
+assets/* /dist/assets/:splat 200
 /* /dist/index.html 200
