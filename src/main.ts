@@ -11,7 +11,6 @@ function setTemplateToPage(template: {template:string, style: string}) {
 if (document.URL.includes('registration')) {
   import('./pages/registration/registration').then(page => {
     setTemplateToPage(page);
-    console.log((window as any).foo);
   })
 } else if (document.URL.includes('auth')) {
   import('./pages/auth/auth').then(page => {
@@ -23,6 +22,10 @@ if (document.URL.includes('registration')) {
   })
 } else if (document.URL.includes('error')) {
   import('./pages/error/error').then(page => {
+    setTemplateToPage(page);
+  })
+} else if (document.URL.includes('settings')) {
+  import('./pages/settings/settings').then(page => {
     setTemplateToPage(page);
   })
 } else {
