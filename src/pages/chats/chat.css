@@ -21,6 +21,8 @@
     }
 
     &__container {
+        position: relative;
+
         width: 337px;
         height: 100vh;
         background-color: #D9D9D9;
@@ -167,5 +169,17 @@
             align-self: flex-end;
             flex-direction: row-reverse;
         }
+    }
+}
+
+.buttons {
+    width: 100%;
+    justify-content: center;
+    position: absolute;
+    bottom: 25px;
+
+    &__item {
+        height: 45px;
+        line-height: 45px;
     }
 }
