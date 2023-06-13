@@ -1,0 +1,30 @@
+export default `
+<main class="body">
+    <form class="form form--without-gap">
+        <img class="form__icon" src="/icon.svg" alt="">
+        <label class="input-file">
+            <input class="input-file__input" type="file" name="avatar">
+            <span class="input-file__button">Поменять аватар</span>           
+        </label>
+    </form>
+    <form class="form">
+        <input placeholder="Имя" type="text" class="form__field" name="first_name">
+        <input placeholder="Фамилия" type="password" class="form__field" name="second_name">
+        <input placeholder="Отображаемое имя" type="password" class="form__field" name="display_name">
+        <input placeholder="Логин" type="password" class="form__field" name="login">
+        <input placeholder="Почта" type="password" class="form__field" name="email">
+        <input placeholder="Телефон" type="password" class="form__field" name="phone">
+        <div class="buttons">
+            <button class="buttons__item buttons__item--small" type="submit">Сохранить</button>
+        </div>
+    </form>
+    <hr class="hr-line">
+    <form class="form">
+        <input placeholder="Старый пароль" type="text" class="form__field" name="oldPassword">
+        <input placeholder="Новый пароль" type="password" class="form__field" name="newPassword">
+        <div class="buttons">
+            <button class="buttons__item buttons__item--small" type="submit">Сохранить</button>
+        </div>
+    </form>
+</main>
+`

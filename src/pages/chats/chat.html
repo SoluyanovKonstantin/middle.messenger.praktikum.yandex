@@ -1,0 +1,56 @@
+export default `
+<main class="body">
+    <section class="chat-preview__container">
+        <div class="search__wrapper">
+            <div class="sandwich__wrapper">
+                <div class="sandwich"></div>
+            </div>
+            <input placeholder="Поиск" class="input search" type="search" name="" id="">
+        </div>
+    
+        <ul class="chat-preview__list">
+            <li class="chat-preview">
+                <img class="chat-preview__image" src="/icon.svg" alt="">
+                <div class="chat-preview__right-side">
+                    <h1 class="chat-preview__text chat-preview__text--title">Название диалога</h1>
+                    <p class="chat-preview__text">Последнее сообщение из ...</p>
+                </div>
+            </li>
+            <li class="chat-preview">
+                <img class="chat-preview__image" src="/icon.svg" alt="">
+                <div class="chat-preview__right-side">
+                    <h1 class="chat-preview__text chat-preview__text--title">Название диалога</h1>
+                    <p class="chat-preview__text">Последнее сообщение из ...</p>
+                </div>
+            </li>
+            <li class="chat-preview">
+                <img class="chat-preview__image" src="/icon.svg" alt="">
+                <div class="chat-preview__right-side">
+                    <h1 class="chat-preview__text chat-preview__text--title">Название диалога</h1>
+                    <p class="chat-preview__text">{{ message }}</p>
+                </div>
+            </li>
+        </ul>
+        <div class="buttons">
+            <a href="/settings" class="buttons__item buttons__item--big" type="submit">Настройки</a>
+        </div>
+    </section>
+    <section class="chat">
+        <ul class="chat__feed">
+            <li class="chat__message chat__message--left">
+                <img class="chat-preview__image" src="/icon.svg" alt="">
+                <p class="chat__text">{{ fullMessage }}</p>
+            </li>
+            <li class="chat__message chat__message--right">
+                <img class="chat-preview__image" src="/icon.svg" alt="">
+                <p class="chat__text">B частности, глубокий уровень погружения создаёт предпосылки для новых принципов формирования материально-технической и кадровой базы. Господа, перспективное планирование обеспечивает актуальность кластеризации усилий. Принимая во внимание показатели успешности, курс на социально-ориентированный национальный проект способствует повышению качества глубокомысленных рассуждений.</p>
+            </li>
+            <li class="chat__message chat__message--left">
+                <img class="chat-preview__image" src="/icon.svg" alt="">
+                <p class="chat__text">B частности, глубокий уровень погружения создаёт предпосылки для новых принципов формирования материально-технической и кадровой базы. Господа, перспективное планирование обеспечивает актуальность кластеризации усилий. Принимая во внимание показатели успешности, курс на социально-ориентированный национальный проект способствует повышению качества глубокомысленных рассуждений.</p>
+            </li>
+        </ul>
+        <textarea type="text" placeholder="Писать сюда..." class="input chat__input" name="message"></textarea>
+    </section>
+</main>
+`

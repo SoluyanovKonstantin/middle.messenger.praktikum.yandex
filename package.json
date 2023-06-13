@@ -1,0 +1,30 @@
+{
+  "name": "vite-project",
+  "private": true,
+  "engines": {
+    "node": "18.12.1"
+  },
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "start": "npm run build && node server.js",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "postcss": "^8.4.24",
+    "postcss-load-config": "^4.0.1",
+    "postcss-nested": "^6.0.1",
+    "typescript": "^5.0.2",
+    "vite": "^4.3.9"
+  },
+  "dependencies": {
+    "eslint": "^8.41.0",
+    "express": "^4.18.2",
+    "postcss-nesting": "^11.2.2",
+    "postcss-plugin": "^1.0.0",
+    "postcss-scss": "^4.0.6",
+    "sugarss": "^4.0.1"
+  }
+}
