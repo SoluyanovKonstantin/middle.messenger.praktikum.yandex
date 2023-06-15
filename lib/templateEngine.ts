@@ -13,7 +13,7 @@ export class TemplateEngine {
         this.template.match(variableInTemplateRegExp)?.forEach(key => {
             const trimmedKeyWithoutBracket = key.replaceAll(/\{\{ | \}\}/g, '');
             this.template = this.template.replace(key, variables[trimmedKeyWithoutBracket]);
-        });
+        })
 
         return {template: this.template, style: this.style};
     }

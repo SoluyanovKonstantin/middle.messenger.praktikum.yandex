@@ -19,10 +19,6 @@
     &__field {
         height: 45px;
     }
-
-    &--without-gap {
-        gap: 0;
-    }
 }
 
 .buttons {
@@ -43,6 +39,7 @@
         display: inline-block;
         cursor: pointer;
         outline: none;
+        text-decoration: none;
         font-size: 14px;
         vertical-align: middle;
         color: #4965D6;
@@ -50,6 +47,7 @@
         border-radius: 4px;
         line-height: 14px;
         height: 14px;
+        padding: 10px 20px;
         box-sizing: border-box;
         border: none;
         margin: 0;
@@ -67,5 +65,11 @@
         height: 0;
 
         
+    }
+}
+
+.form {
+    &--without-gap {
+        gap: 0;
     }
 }

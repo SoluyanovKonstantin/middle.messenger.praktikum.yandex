@@ -9,13 +9,13 @@ const app = express();
 const PORT = 3000;
 
 app.get('*.js|*.css|*.svg', (req, res) => {
-    res.sendFile(__dirname + '/dist/' + req.url);
-});
+  res.sendFile(__dirname + '/dist/' + req.url)
+})
 
 app.get('*', (req, res) => {
-    res.sendFile(__dirname + '/dist/index.html');
-});
+  res.sendFile(__dirname + "/dist/index.html")
+})
 
 app.listen(PORT, function () {
-    console.log(`Example app listening on port ${PORT}!`);
+  console.log(`Example app listening on port ${PORT}!`);
 });
