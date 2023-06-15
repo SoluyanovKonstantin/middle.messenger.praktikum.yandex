@@ -1,0 +1,18 @@
+{
+  "extends": ["stylelint-config-standard"],
+  "ignoreFiles": [
+    "**/dist/**",
+    "**/*.ts",
+    "**/*.js",
+    "**/*.html",
+    "**/*.svg",
+    "**/*.json",
+    "**/*.md",
+    "**/*.mjs",
+    "**/_redirects"
+  ],
+  "rules": {
+    "rule-empty-line-before": "always",
+    "declaration-property-value-no-unknown": true
+  }
+}
