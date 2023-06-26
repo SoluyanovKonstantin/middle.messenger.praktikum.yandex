@@ -1,9 +1,12 @@
 import './style.css';
 
-function setTemplateToPage(template: { template: string; style: string }) {
+function setTemplateToPage(template: { template: string | HTMLElement | undefined; style: string }) {
     const appNode = document.querySelector<HTMLDivElement>('#app');
-    if (appNode)
+    if (appNode && typeof template.template === 'string') {
         appNode.innerHTML = template.template;
+    } else if (template.template) {
+        appNode?.append(template.template);
+    }
     const styleSheet = document.createElement('style');
     styleSheet.setAttribute('id', 'forComponent');
     styleSheet.innerText = template.style;
@@ -16,7 +19,8 @@ if (document.URL.includes('registration')) {
     });
 } else if (document.URL.includes('auth')) {
     import('./pages/auth/auth').then((page) => {
-        setTemplateToPage(page);
+        if (page.template)
+            setTemplateToPage(page);
     });
 } else if (document.URL.includes('chat')) {
     import('./pages/chats/chat').then((page) => {

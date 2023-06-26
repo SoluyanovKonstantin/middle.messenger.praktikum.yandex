@@ -1,7 +1,16 @@
+import { Block } from './../../../lib/block';
 import html from './auth.html?inline';
-import css from './auth.css?inline';
-import { TemplateEngine } from '../../../lib/templateEngine';
+import style from './auth.css?inline';
+import button from '../../components/button/button';
 
-const { template, style } = (new TemplateEngine(html, css)).compile({});
+button.setProps({ text: 'Войти' });
 
-export { template, style };
+const buttonComponent = button.getContent();
+
+const block = new Block('auth-component', { }, html, style, { buttonComponent });
+
+const template = block.getContent();
+
+const stylesWholePage = style + button.getStyles();
+
+export { template, stylesWholePage as style };
