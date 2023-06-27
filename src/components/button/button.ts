@@ -1,7 +1,13 @@
-import { Block } from './../../../lib/block';
+import { Block, Events } from './../../../lib/block';
 import html from './button.html?inline';
 import style from './button.css?inline';
 
-const block = new Block('button-component', {}, html, style);
+class ButtonComponent extends Block {
+    constructor(props = {}, events?: Events) {
+        super('button-component', props, html, style, {}, events);
 
-export default block;
+        ButtonComponent._style = style;
+
+    }
+}
+export { ButtonComponent };

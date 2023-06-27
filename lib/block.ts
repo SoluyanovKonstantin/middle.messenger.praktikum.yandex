@@ -1,18 +1,23 @@
 import { TemplateEngine } from './templateEngine';
 import { EventBus } from './event-bus';
 
-export type O = Record<string, string>;
+export type Props = {
+    [index: string]: string | undefined,
+}
+
+export type Events = Record<string, (event?: Event) => void>;
 
 export class Block {
-    private _element: HTMLElement | undefined;
+    protected _element: HTMLElement | undefined;
     private _templateEngine: TemplateEngine;
     private _meta: {
         tagName: string,
-        props: Record<string, string>
+        props: Props
     };
-    private _style: string;
+    private events: Events | undefined;
+    protected static _style: string;
 
-    public props: Record<string, string>;
+    public props: Props;
     public eventBus: () => EventBus;
 
     static EVENTS = {
@@ -22,7 +27,7 @@ export class Block {
         FLOW_CDU: 'flow:component-did-update'
     };
 
-    constructor(tagName = 'div', props = {}, template: string, style: string, components = {}) {
+    constructor(tagName = 'div', props: Props = {}, template: string, style: string, components = {}, events?: Events) {
         const eventBus = new EventBus();
         this._meta = {
             tagName,
@@ -30,15 +35,28 @@ export class Block {
         };
 
         this._templateEngine = new TemplateEngine(template, style, components);
-        this._style = style;
+        Block._style = style;
 
         this.props = this._makePropsProxy(props);
+        this.events = events;
 
         this.eventBus = () => eventBus;
 
         this._registerEvents(eventBus);
         eventBus.emit(Block.EVENTS.INIT);
 
+    }
+
+    _addEvents() {
+        if (!this.events) return;
+        const eventKeys = Object.keys(this.events);
+
+        eventKeys.forEach((eventName: string) => {
+            const ev = this.events?.[eventName];
+            if (this._element && ev) {
+                this._element.addEventListener(eventName, ev);
+            }
+        });
     }
 
     _registerEvents(eventBus: EventBus) {
@@ -56,16 +74,16 @@ export class Block {
         this._createResources();
     }
 
-    _componentDidUpdate(oldProps: O | string, newProps: O | string) {
+    _componentDidUpdate(oldProps: Props, newProps: Props) {
         const response = this.componentDidUpdate(oldProps, newProps);
     }
 
     // Может переопределять пользователь, необязательно трогать
-    componentDidUpdate(oldProps: O | string, newProps: O | string) {
+    componentDidUpdate(oldProps: Props, newProps: Props) {
         return oldProps === newProps;
     }
 
-    setProps = (nextProps: O) => {
+    setProps = (nextProps: Props) => {
         if (!nextProps) {
             return;
         }
@@ -75,7 +93,7 @@ export class Block {
     };
 
     get element() {
-        this._element = this._render();
+        this._render();
         return this._element;
     }
 
@@ -84,8 +102,8 @@ export class Block {
         if (this._element) {
             this._element.innerHTML = '';
             this._element.append(block.template);
+            this._addEvents();
         }
-        return this._element;
     }
 
     render() {
@@ -96,11 +114,11 @@ export class Block {
         return this.element;
     }
 
-    getStyles() {
+    static getStyles() {
         return this._style;
     }
 
-    _makePropsProxy(props: O) {
+    _makePropsProxy(props: Props) {
         return new Proxy(props, {
             set: (target, prop: string, val) => {
                 target[prop] = val;

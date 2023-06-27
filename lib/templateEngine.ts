@@ -1,6 +1,8 @@
 //(?:<[a-z]*>)(.*)(?:<\/[a-z]*>)
 //https://stackoverflow.com/questions/32649704/how-to-generate-hash-from-timestamp
 
+import { Props } from './block';
+
 export class TemplateEngine {
     private template = '';
     private style = '';
@@ -46,14 +48,17 @@ export class TemplateEngine {
         }
     }
 
-    compile(variables: { [key: string]: string  }) {
+    compile(variables: Props) {
         const variableInTemplateRegExp = /\{\{.*?\}\}/g;
         
         let newTemplate = this.template;
         
         this.template.match(variableInTemplateRegExp)?.forEach(key => {
             const trimmedKeyWithoutBracket = key.replaceAll(/\{\{ | \}\}/g, '');
-            newTemplate = this.template.replace(key, variables[trimmedKeyWithoutBracket]);
+            const variable = variables[trimmedKeyWithoutBracket];
+            if (variable) {
+                newTemplate = this.template.replace(key, variable);
+            }
         });
 
         const div = document.createElement('div');
@@ -61,12 +66,14 @@ export class TemplateEngine {
         const child = div.firstElementChild as HTMLElement;
         
         Object.keys(this.components).forEach(name => {
-            const element = child.querySelector<HTMLElement>(name.toLowerCase());
-            if (element) {
-                element.innerHTML = '';
-                this.components[name].classList.add(...element.classList.values());
-                element.parentNode?.insertBefore(this.components[name], element);
-                element.remove();
+            const elements = child.querySelectorAll<HTMLElement>(name.toLowerCase());
+            if (elements.length) {
+                elements.forEach(element => {
+                    const newEl = this.components[name] as HTMLElement;
+                    newEl.classList.add(...element.classList.values());
+                    element.parentNode?.insertBefore(newEl, element);
+                    element.remove();
+                });
             }
         });
 
