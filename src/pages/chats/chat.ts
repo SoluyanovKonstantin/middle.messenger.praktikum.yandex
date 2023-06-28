@@ -1,4 +1,4 @@
-import { TemplateEngine } from './../../../lib/templateEngine';
+import { TemplateEngine } from '../../../utils/templateEngine';
 import html from './chat.html?inline';
 import css from './chat.css?inline';
 

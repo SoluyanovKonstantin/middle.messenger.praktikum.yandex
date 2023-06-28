@@ -26,15 +26,16 @@ export class Block {
         FLOW_RENDER: 'flow:render',
         FLOW_CDU: 'flow:component-did-update'
     };
+    components: Record<string, HTMLElement> | undefined;
 
-    constructor(tagName = 'div', props: Props = {}, template: string, style: string, components = {}, events?: Events) {
+    constructor(tagName = 'div', props: Props = {}, template: string, style: string, events?: Events) {
         const eventBus = new EventBus();
         this._meta = {
             tagName,
             props
         };
 
-        this._templateEngine = new TemplateEngine(template, style, components);
+        this._templateEngine = new TemplateEngine(template, style);
         Block._style = style;
 
         this.props = this._makePropsProxy(props);
@@ -57,6 +58,10 @@ export class Block {
                 this._element.addEventListener(eventName, ev);
             }
         });
+    }
+
+    protected initComponents(components: Record<string, HTMLElement>) {
+        this.components = components;
     }
 
     _registerEvents(eventBus: EventBus) {
@@ -94,7 +99,7 @@ export class Block {
 
     get element() {
         this._render();
-        return this._element;
+        return this._element as HTMLElement;
     }
 
     _render() {
@@ -107,7 +112,7 @@ export class Block {
     }
 
     render() {
-        return this._templateEngine.compile(this.props);
+        return this._templateEngine.compile(this.props, this.components);
     }
 
     getContent() {

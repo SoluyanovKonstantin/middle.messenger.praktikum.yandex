@@ -1,12 +1,12 @@
-import { O } from './block';
+import {Props} from './block';
 
 export class EventBus {
-    listeners: Record<string, Array<(...args : (O | string)[]) => void>>;
+    listeners: Record<string, Array<(...args : Props[]) => void>>;
     constructor() {
         this.listeners = {};
     }
 
-    on(event: string, callback: (...args : (O | string)[]) => void) {
+    on(event: string, callback: (...args : Props[]) => void) {
         if (!this.listeners[event]) {
             this.listeners[event] = [];
         }
@@ -24,7 +24,7 @@ export class EventBus {
         );
     }
 
-    emit(event: string, ...args: (O | string)[]) {
+    emit(event: string, ...args: Props[]) {
         if (!this.listeners[event]) {
             throw new Error(`Нет события: ${event}`);
         }

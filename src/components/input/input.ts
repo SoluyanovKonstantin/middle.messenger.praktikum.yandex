@@ -1,10 +1,10 @@
 import html from './input.html?inline';
 import style from './input.css?inline';
-import { Block } from '../../../lib/block';
+import { Block } from '../../../utils/block';
 
 class InputComponent extends Block {
-    constructor(props = {}, ) {
-        super('input-component', props, html, style);
+    constructor(props = {}, events = {}) {
+        super('input-component', props, html, style, events);
 
         InputComponent._style = style;
     }

@@ -6,12 +6,10 @@ import { Props } from './block';
 export class TemplateEngine {
     private template = '';
     private style = '';
-    private components: Record<string, HTMLElement> = {};
 
-    constructor(template: string, style: string, components: Record<string, HTMLElement> = {}) {
+    constructor(template: string, style: string) {
         this.template = template;
         this.style = style;
-        this.components = components;
     }
 
     parseTemplate() {
@@ -48,7 +46,7 @@ export class TemplateEngine {
         }
     }
 
-    compile(variables: Props) {
+    compile(variables: Props, components: Record<string, HTMLElement> = {}) {
         const variableInTemplateRegExp = /\{\{.*?\}\}/g;
         
         let newTemplate = this.template;
@@ -57,7 +55,7 @@ export class TemplateEngine {
             const trimmedKeyWithoutBracket = key.replaceAll(/\{\{ | \}\}/g, '');
             const variable = variables[trimmedKeyWithoutBracket];
             if (variable) {
-                newTemplate = this.template.replace(key, variable);
+                newTemplate = newTemplate.replaceAll(key, variable);
             }
         });
 
@@ -65,11 +63,11 @@ export class TemplateEngine {
         div.innerHTML = newTemplate;
         const child = div.firstElementChild as HTMLElement;
         
-        Object.keys(this.components).forEach(name => {
+        Object.keys(components).forEach(name => {
             const elements = child.querySelectorAll<HTMLElement>(name.toLowerCase());
             if (elements.length) {
                 elements.forEach(element => {
-                    const newEl = this.components[name] as HTMLElement;
+                    const newEl = components[name] as HTMLElement;
                     newEl.classList.add(...element.classList.values());
                     element.parentNode?.insertBefore(newEl, element);
                     element.remove();
