@@ -1,7 +1,14 @@
-import { TemplateEngine } from '../../../utils/templateEngine';
 import html from './chat.html?inline';
-import css from './chat.css?inline';
+import style from './chat.css?inline';
+import { Block } from '../../../utils/block';
 
-const { template, style } = (new TemplateEngine(html, css)).compile({ message: 'Последнее сообщение из ...', fullMessage: 'Полное сообщение' });
+class ChatComponent extends Block {
+    constructor(events = {}) {
+        super('chat-component', { fullMessage: 'Полное сообщение', message: 'Последнее сообщение из ...' }, html, style, events);
 
-export { template, style };
+        ChatComponent._style = style;
+    }
+}
+
+
+export { ChatComponent };

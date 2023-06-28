@@ -16,18 +16,23 @@ function setTemplateToPage(template: { template: string | HTMLElement | undefine
 if (document.URL.includes('registration')) {
     import('./pages/registration/registration').then(({ RegistrationComponent } ) => {
         const component = new RegistrationComponent();
-        if (component.getContent())
+        if (component.getContent()) {
             setTemplateToPage({ template: component.getContent(), style: RegistrationComponent.getStyles() });
+        }
     });
 } else if (document.URL.includes('auth')) {
     import('./pages/auth/auth').then(( { AuthComponent } ) => {
         const component = new AuthComponent();
-        if (component.getContent())
+        if (component.getContent()) {
             setTemplateToPage({ template: component.getContent(), style: AuthComponent.getStyles() });
+        }
     });
 } else if (document.URL.includes('chat')) {
-    import('./pages/chats/chat').then((page) => {
-        setTemplateToPage(page);
+    import('./pages/chats/chat').then(({ ChatComponent } ) => {
+        const component = new ChatComponent();
+        if (component.getContent()) {
+            setTemplateToPage({ template: component.getContent(), style: ChatComponent.getStyles() });
+        }
     });
 } else if (document.URL.includes('error')) {
     import('./pages/error/error').then((page) => {

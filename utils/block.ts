@@ -67,7 +67,6 @@ export class Block {
     _registerEvents(eventBus: EventBus) {
         eventBus.on(Block.EVENTS.INIT, this.init.bind(this));
         eventBus.on(Block.EVENTS.FLOW_RENDER, this._render.bind(this));
-        eventBus.on(Block.EVENTS.FLOW_CDU, this._componentDidUpdate.bind(this));
     }
 
     _createResources() {
@@ -77,10 +76,6 @@ export class Block {
 
     init() {
         this._createResources();
-    }
-
-    _componentDidUpdate(oldProps: Props, newProps: Props) {
-        const response = this.componentDidUpdate(oldProps, newProps);
     }
 
     // Может переопределять пользователь, необязательно трогать
@@ -93,7 +88,6 @@ export class Block {
             return;
         }
 
-        this._componentDidUpdate(this.props, nextProps);
         Object.assign(this.props, nextProps);
     };
 

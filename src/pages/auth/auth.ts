@@ -37,13 +37,18 @@ class AuthComponent extends Block {
         ev.preventDefault();
 
         if (this.components) {
+            const obj: Record<string, string> = {};
+
             Object.values(this.components)?.forEach((component) => {
                 const input = component.querySelector('input');
                 if (input) {
                     input.focus();
                     input.blur();
+                    obj[input.name] = input.value;
                 }
             });
+
+            console.log(obj);
         }
     }
 }

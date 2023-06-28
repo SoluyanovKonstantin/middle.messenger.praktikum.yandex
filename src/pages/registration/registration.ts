@@ -50,7 +50,6 @@ class RegistrationComponent extends Block {
 
     onSubmit(ev: Event) {
         ev.preventDefault();
-        console.log(ev);
 
         if (this.components) {
             const obj: Record<string, string> = {};
