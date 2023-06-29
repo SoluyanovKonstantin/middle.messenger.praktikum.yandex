@@ -6,8 +6,8 @@ import { ButtonComponent } from '../../components/button/button';
 import { regExps } from '../../../utils/checkInput';
 
 class SettingsComponent extends Block {
-    constructor(events = {}) {
-        super('chat-component', {}, html, style, events);
+    constructor() {
+        super('chat-component', {}, html, style);
 
         this.initComponents();
 
@@ -21,11 +21,11 @@ class SettingsComponent extends Block {
         const loginComponent = new InputComponent({ placeholder: 'Логин', type: 'text', name: 'login', regExp: regExps.login }).getContent();
         const emailComponent = new InputComponent({ placeholder: 'Почта', type: 'email', name: 'email', regExp: regExps.email }).getContent();
         const phoneComponent = new InputComponent({ placeholder: 'Телефон', type: 'phone', name: 'phone', regExp: regExps.phone }).getContent();
-        const saveDataButtonComponent = new ButtonComponent({ text: 'Сохранить' }, { 'click': ev => this.onSubmit(ev as Event, 'data') }).getContent();
+        const saveDataButtonComponent = new ButtonComponent({ text: 'Сохранить', events: { 'click': ev => this.onSubmit(ev as Event, 'data') } }, ).getContent();
 
         const oldPasswordComponent = new InputComponent({ placeholder: 'Пароль', type: 'password', name: 'oldPassword', regExp: regExps.password }).getContent();
         const newPasswordComponent = new InputComponent({ placeholder: 'Пароль', type: 'password', name: 'newPassword', regExp: regExps.password }).getContent();
-        const savePasswordButtonComponent = new ButtonComponent({ text: 'Сохранить' }, { 'click': ev => this.onSubmit(ev as Event, 'password') }).getContent();
+        const savePasswordButtonComponent = new ButtonComponent({ text: 'Сохранить', events: { 'click': ev => this.onSubmit(ev as Event, 'password') } }, ).getContent();
         this.components = { saveDataButtonComponent, savePasswordButtonComponent, loginComponent, oldPasswordComponent, newPasswordComponent, emailComponent, firstNameComponent, lastNameComponent, phoneComponent, displayNameComponent };
     }
 

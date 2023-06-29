@@ -1,4 +1,4 @@
-import { Block, Events } from '../../../utils/block';
+import { Block, Events, Props } from '../../../utils/block';
 import html from './auth.html?inline';
 import style from './auth.css?inline';
 import { ButtonComponent } from '../../components/button/button';
@@ -6,8 +6,10 @@ import { InputComponent } from '../../components/input/input';
 import { regExps } from '../../../utils/checkInput';
 
 class AuthComponent extends Block {
-    constructor(props = {}, events?: Events) {
-        super('auth-component', props, html, style, events);
+    constructor(props: Props = {}, events?: Events) {
+        props.events = events;
+
+        super('auth-component', props, html, style);
 
         this.initComponents();
 
@@ -18,8 +20,9 @@ class AuthComponent extends Block {
         const loginComponent = new InputComponent({ placeholder: 'Логин', type: 'text', name: 'login', regExp: regExps.login }).getContent();
         const passwordComponent = new InputComponent({ placeholder: 'Пароль', type: 'password', name: 'password' , regExp: regExps.password}).getContent();
         const buttonComponent = new ButtonComponent({
-            text: 'Войти'
-        }, { 'click': ev => this.onSubmit(ev as Event) }).getContent();
+            text: 'Войти',
+            events: { 'click': ev => this.onSubmit(ev as Event) }
+        }).getContent();
 
         this.components = { buttonComponent, loginComponent, passwordComponent };
     }

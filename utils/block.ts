@@ -2,7 +2,8 @@ import { TemplateEngine } from './templateEngine';
 import { EventBus } from './event-bus';
 
 export type Props = {
-    [index: string]: string | RegExp | undefined,
+    events?: Record<string, (event?: Event) => void>,
+    [index: string]: string | RegExp | Record<string, (event?: Event) => void> | undefined,
 }
 
 export type Events = Record<string, (event?: Event) => void>;
@@ -28,7 +29,7 @@ export class Block {
     };
     components: Record<string, HTMLElement> | undefined;
 
-    constructor(tagName = 'div', props: Props = {}, template: string, style: string, events?: Events) {
+    constructor(tagName = 'div', props: Props = {}, template: string, style: string) {
         const eventBus = new EventBus();
         this._meta = {
             tagName,
@@ -39,7 +40,6 @@ export class Block {
         Block._style = style;
 
         this.props = this._makePropsProxy(props);
-        this.events = events;
 
         this.eventBus = () => eventBus;
 
@@ -48,12 +48,25 @@ export class Block {
 
     }
 
-    _addEvents() {
-        if (!this.events) return;
-        const eventKeys = Object.keys(this.events);
+    _removeEvents() {
+        const eventKeys = Object.keys(this.events as Events);
 
         eventKeys.forEach((eventName: string) => {
             const ev = this.events?.[eventName];
+            if (this._element && ev) {
+                this._element.removeEventListener(eventName, ev);
+            }
+        });
+    }
+
+    _addEvents() {
+        const { events } = this.props;
+        if (!events) return;
+        const eventKeys = Object.keys(events);
+        this.events = events;
+
+        eventKeys.forEach((eventName: string) => {
+            const ev = events?.[eventName];
             if (this._element && ev) {
                 this._element.addEventListener(eventName, ev);
             }
@@ -96,6 +109,7 @@ export class Block {
     }
 
     _render() {
+        this._removeEvents();
         const block = this.render();
         if (this._element) {
             this._element.innerHTML = '';
