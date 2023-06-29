@@ -2,6 +2,7 @@
 indent_size = 4
 indent_style = space
 insert_final_newline = true
+end_of_line = lf
 
 [*.json]
 indent_size = 2
