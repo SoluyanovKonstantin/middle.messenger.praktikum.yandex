@@ -49,7 +49,10 @@ export class Block {
     }
 
     _removeEvents() {
-        const eventKeys = Object.keys(this.events as Events);
+        let eventKeys: string[] = [];
+        if (this.events) {
+            eventKeys = Object.keys(this.events);
+        }
 
         eventKeys.forEach((eventName: string) => {
             const ev = this.events?.[eventName];
