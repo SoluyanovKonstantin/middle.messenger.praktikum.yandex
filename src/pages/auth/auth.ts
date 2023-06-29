@@ -3,7 +3,7 @@ import html from './auth.html?inline';
 import style from './auth.css?inline';
 import { ButtonComponent } from '../../components/button/button';
 import { InputComponent } from '../../components/input/input';
-import { checkInput, regExps } from '../../../utils/checkInput';
+import { regExps } from '../../../utils/checkInput';
 
 class AuthComponent extends Block {
     constructor(props = {}, events?: Events) {
@@ -15,20 +15,11 @@ class AuthComponent extends Block {
     }
 
     protected initComponents(): void {
-        const login = new InputComponent({ placeholder: 'Логин', type: 'text', name: 'login' }, { focusout: (ev: Event) => { 
-            checkInput(regExps.login, (ev.target as HTMLInputElement)); 
-        }});
-        
-        const password = new InputComponent({ placeholder: 'Пароль', type: 'password', name: 'password' }, { focusout: (ev: Event) => {
-            checkInput(regExps.password, ev.target as HTMLInputElement);
-        } });
-        const button = new ButtonComponent({
+        const loginComponent = new InputComponent({ placeholder: 'Логин', type: 'text', name: 'login', regExp: regExps.login }).getContent();
+        const passwordComponent = new InputComponent({ placeholder: 'Пароль', type: 'password', name: 'password' , regExp: regExps.password}).getContent();
+        const buttonComponent = new ButtonComponent({
             text: 'Войти'
-        }, { 'click': ev => this.onSubmit(ev as Event) });
-        
-        const buttonComponent = button.getContent();
-        const loginComponent = login.getContent();
-        const passwordComponent = password.getContent();
+        }, { 'click': ev => this.onSubmit(ev as Event) }).getContent();
 
         this.components = { buttonComponent, loginComponent, passwordComponent };
     }

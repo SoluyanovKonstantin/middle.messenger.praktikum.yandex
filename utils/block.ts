@@ -2,7 +2,7 @@ import { TemplateEngine } from './templateEngine';
 import { EventBus } from './event-bus';
 
 export type Props = {
-    [index: string]: string | undefined,
+    [index: string]: string | RegExp | undefined,
 }
 
 export type Events = Record<string, (event?: Event) => void>;

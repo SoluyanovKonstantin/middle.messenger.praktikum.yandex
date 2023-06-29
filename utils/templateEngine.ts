@@ -21,7 +21,7 @@ export class TemplateEngine {
         this.template.match(variableInTemplateRegExp)?.forEach(key => {
             const trimmedKeyWithoutBracket = key.replaceAll(/\{\{ | \}\}/g, '');
             const variable = variables[trimmedKeyWithoutBracket];
-            if (variable) {
+            if (variable && typeof variable === 'string') {
                 newTemplate = newTemplate.replaceAll(key, variable);
             }
         });
