@@ -8,22 +8,22 @@ export default `
         </label>
     </form>
     <form class="form">
-        <input placeholder="Имя" type="text" class="form__field" name="first_name">
-        <input placeholder="Фамилия" type="text" class="form__field" name="second_name">
-        <input placeholder="Отображаемое имя" type="text" class="form__field" name="display_name">
-        <input placeholder="Логин" type="text" class="form__field" name="login">
-        <input placeholder="Почта" type="email" class="form__field" name="email">
-        <input placeholder="Телефон" type="phone" class="form__field" name="phone">
+        <firstNameComponent placeholder="Имя" type="text" class="form__field" name="first_name"></firstNameComponent>
+        <lastNameComponent placeholder="Фамилия" type="text" class="form__field" name="second_name"></lastNameComponent>
+        <displayNameComponent placeholder="Отображаемое имя" type="text" class="form__field" name="display_name"></displayNameComponent>
+        <loginComponent placeholder="Логин" type="text" class="form__field" name="login"></loginComponent>
+        <emailComponent placeholder="Почта" type="email" class="form__field" name="email"></emailComponent>
+        <phoneComponent placeholder="Телефон" type="phone" class="form__field" name="phone"></phoneComponent>
         <div class="buttons">
-            <button class="buttons__item buttons__item--small" type="submit">Сохранить</button>
+            <saveDataButtonComponent class="buttons__item buttons__item--small" type="submit">Сохранить</saveDataButtonComponent>
         </div>
     </form>
     <hr class="hr-line">
     <form class="form">
-        <input placeholder="Старый пароль" type="text" class="form__field" name="oldPassword">
-        <input placeholder="Новый пароль" type="password" class="form__field" name="newPassword">
+        <oldPasswordComponent placeholder="Старый пароль" type="text" class="form__field" name="oldPassword"></oldPasswordComponent>
+        <newPasswordComponent placeholder="Новый пароль" type="password" class="form__field" name="newPassword"></newPasswordComponent>
         <div class="buttons">
-            <button class="buttons__item buttons__item--small" type="submit">Сохранить</button>
+            <savePasswordButtonComponent class="buttons__item buttons__item--small" type="submit">Сохранить</savePasswordButtonComponent>
         </div>
     </form>
 </main>

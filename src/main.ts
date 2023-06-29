@@ -35,12 +35,18 @@ if (document.URL.includes('registration')) {
         }
     });
 } else if (document.URL.includes('error')) {
-    import('./pages/error/error').then((page) => {
-        setTemplateToPage(page);
+    import('./pages/error/error').then(({ ErrorComponent } ) => {
+        const component = new ErrorComponent();
+        if (component.getContent()) {
+            setTemplateToPage({ template: component.getContent(), style: ErrorComponent.getStyles() });
+        }
     });
 } else if (document.URL.includes('settings')) {
-    import('./pages/settings/settings').then((page) => {
-        setTemplateToPage(page);
+    import('./pages/settings/settings').then(({ SettingsComponent } ) => {
+        const component = new SettingsComponent();
+        if (component.getContent()) {
+            setTemplateToPage({ template: component.getContent(), style: SettingsComponent.getStyles() });
+        }
     });
 } else {
     window.location.href = '/auth';
