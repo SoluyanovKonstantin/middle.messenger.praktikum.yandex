@@ -1,13 +1,13 @@
 import html from './registration.html?inline';
 import style from './registration.css?inline';
-import { Block, Events } from '../../../utils/block';
+import { Block } from '../../../utils/block';
 import { InputComponent } from '../../components/input/input';
 import { regExps } from '../../../utils/checkInput';
 import { ButtonComponent } from '../../components/button/button';
 
 class RegistrationComponent extends Block {
-    constructor(props = {}, events?: Events) {
-        super('registration-component', props, html, style, events);
+    constructor(props = {}) {
+        super('registration-component', props, html, style);
 
         this.initComponents();
 
@@ -21,7 +21,7 @@ class RegistrationComponent extends Block {
         const firstNameComponent = new InputComponent({ placeholder: 'Имя', type: 'text', name: 'first_name', regExp: regExps.name }).getContent();
         const lastNameComponent = new InputComponent({ placeholder: 'Фамилия', type: 'text', name: 'second_name', regExp: regExps.name }).getContent();
         const phoneComponent = new InputComponent({ placeholder: 'Телефон', type: 'phone', name: 'phone', regExp: regExps.phone }).getContent();
-        const buttonComponent = new ButtonComponent({ text: 'Зарегистрироваться' }, { 'click': ev => this.onSubmit(ev as Event) }).getContent();
+        const buttonComponent = new ButtonComponent({ text: 'Зарегистрироваться', events: { 'click': ev => this.onSubmit(ev as Event) } }).getContent();
         
         this.components = { buttonComponent, loginComponent, passwordComponent, emailComponent, firstNameComponent, lastNameComponent, phoneComponent };
     }

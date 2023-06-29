@@ -1,3 +1,43 @@
+.input-wrapper {
+    height: 100%;
+    width: 100%;
+    position: relative;
+
+    &::after {
+        color: var(--red);
+        font-size: 11px;
+        left: 8px;
+        position: absolute;
+        display: block;
+        content: '';
+        bottom: -15px;
+    }
+
+    &--alert-first_name::after,
+    &--alert-second_name::after,
+    &--alert-display_name::after {
+        content: 'Первая буква должна быть заглавной, не должно быть цифр и спецсимволов кроме дефиса';
+    }
+
+    &--alert-login::after {
+        content: 'От 3 до 20 символов, допустимы латиница, цифры и знаки(-, _), должна быть хотя бы одна буква';
+    }
+
+    &--alert-email::after {
+        content: 'Допустимы латиница, цифры и знаки(-, _), должен быть знак @ и точка после него, перед точкой должны быть буквы';
+    }
+
+    &--alert-phone::after {
+        content: 'От 10 до 15 символов, состоит из цифр, может начинается с плюса';
+    }
+
+    &--alert-oldPassword::after,
+    &--alert-newPassword::after,
+    &--alert-password::after {
+        content: 'От 8 до 40 символов, обязательно хотя бы одна заглавная буква и цифра';
+    }
+}
+
 .input {
     width: 100%;
     height: 100%;

@@ -1,10 +1,10 @@
-import { Block, Events } from '../../../utils/block';
+import { Block, Props } from '../../../utils/block';
 import html from './button.html?inline';
 import style from './button.css?inline';
 
 class ButtonComponent extends Block {
-    constructor(props = {}, events?: Events) {
-        super('button-component', props, html, style, events);
+    constructor(props: Props = {}) {
+        super('button-component', props, html, style);
 
         ButtonComponent._style = style;
 
