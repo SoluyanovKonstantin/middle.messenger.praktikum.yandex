@@ -78,7 +78,6 @@ export class Block {
         this._createResources();
     }
 
-    // Может переопределять пользователь, необязательно трогать
     componentDidUpdate(oldProps: Props, newProps: Props) {
         return oldProps === newProps;
     }
@@ -124,14 +123,13 @@ export class Block {
                 this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
                 return true;
             },
-            deleteProperty() { // перехватываем удаление свойства
+            deleteProperty() {
                 throw new Error('нет доступа');
             },
         });
     }
 
     _createDocumentElement(tagName: string): HTMLElement {
-        // Можно сделать метод, который через фрагменты в цикле создаёт сразу несколько блоков
         return document.createElement(tagName);
     }
 
