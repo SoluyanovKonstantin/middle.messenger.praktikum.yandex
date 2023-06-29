@@ -7,11 +7,7 @@ const regExps = {
 };
 
 function checkInput(regExp: RegExp, input: HTMLInputElement) {
-    if (!regExp.test(input.value)) {
-        input.classList.add('input--alert');
-    } else {
-        input.classList.remove('input--alert');
-    }
+    return regExp.test(input.value);
 }
 
 export { checkInput, regExps };
