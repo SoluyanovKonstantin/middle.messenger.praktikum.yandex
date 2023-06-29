@@ -1,4 +1,4 @@
-import { Block, Events, Props } from '../../../utils/block';
+import { Block, Props } from '../../../utils/block';
 import html from './button.html?inline';
 import style from './button.css?inline';
 

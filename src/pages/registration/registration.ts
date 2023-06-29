@@ -1,6 +1,6 @@
 import html from './registration.html?inline';
 import style from './registration.css?inline';
-import { Block, Events } from '../../../utils/block';
+import { Block } from '../../../utils/block';
 import { InputComponent } from '../../components/input/input';
 import { regExps } from '../../../utils/checkInput';
 import { ButtonComponent } from '../../components/button/button';
