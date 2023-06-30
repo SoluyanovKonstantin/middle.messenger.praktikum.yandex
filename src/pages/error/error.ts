@@ -1,10 +1,15 @@
 import html from './error.html?inline';
-import css from './error.css?inline';
-import { TemplateEngine } from '../../../lib/templateEngine';
+import style from './error.css?inline';
+import { Block } from '../../../utils/block';
 
-const urlParams = new URLSearchParams(window.location.search);
-const errorCode = urlParams.get('errorCode') ?? '500';
+class ErrorComponent extends Block {
+    constructor() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const errorCode = urlParams.get('errorCode') ?? '500';
 
-const { template, style } = (new TemplateEngine(html, css)).compile({ errorCode });
+        super('chat-component', { errorCode }, html, style);
+        ErrorComponent._style = style;
+    }
+}
 
-export { template, style };
+export { ErrorComponent };

@@ -1,10 +1,14 @@
 export default `
-<main class="body">
+<main 
+    class="body">
     <form class="form">
-        <input placeholder="Логин" type="text" class="form__field" name="login">
-        <input placeholder="Пароль" type="password" class="form__field" name="password">
+        <loginComponent placeholder="Логин" 
+               type="text" 
+               class="form__field" 
+               name="login"></loginComponent>
+        <passwordComponent placeholder="Пароль" type="password" class="form__field" name="password"></passwordComponent>
         <div class="buttons">
-            <button class="buttons__item buttons__item--small" type="submit">Войти</button>
+            <buttonComponent class="buttons__item buttons__item--small"></buttonComponent>
             <a href="/registration" class="buttons__item buttons__item--big" type="submit">Зарегистрироваться</a>
         </div>
     </form>

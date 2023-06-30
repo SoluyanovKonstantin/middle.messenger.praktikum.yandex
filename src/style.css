@@ -1,5 +1,11 @@
 :root {
   --bg-color: #d9d9d9;
+  --red: #FF4900;
+  --blue: #1533AD;
+  --white: #fff;
+  --gray: #333;
+  --black: #000;
+  --orange: #FFA040;
 }
 
 html {
@@ -19,10 +25,10 @@ body {
   &__item {
       height: 58px;
       border-radius: 15px;
-      background-color: #1533AD;
-      color: #fff;
+      background-color: var(--blue);
+      color: var(--white);
       border: 0;
-      box-shadow: 0px 3.78626px 3.78626px rgba(0, 0, 0, 0.25);
+      box-shadow: 0 3.7px 3.7px rgb(0 0 0 / 25%);
       font-style: normal;
       font-weight: 700;
       font-size: 18px;
@@ -48,20 +54,16 @@ body {
   flex-direction: column;
   width: 729px;
   padding: 46px;
-  background-color: #D9D9D9;
+  background-color: var(--bg-color);
   justify-content: center;
   align-items: center;
   gap: 46px;
   border-radius: 15px;
-  box-shadow: 0px 3.78626px 3.78626px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 3.7px 3.7px rgb(0 0 0 / 25%);
 
   &__field {
-      width: 631px;
+      width: 648px;
       height: 65px;
-      border-radius: 15px;
-      border: 0;
-      box-shadow: 0px 3.78626px 3.78626px rgba(0, 0, 0, 0.25);
-      padding-left: 15px;
   }
 
   &__icon {
@@ -75,5 +77,5 @@ body {
 	padding: 0;
 	height: 0;
 	border: none;
-	border-top: 1px solid #333;
+	border-top: 1px solid var(--gray);
 }
