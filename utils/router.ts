@@ -1,28 +1,35 @@
-import { Block } from './block';
+import { Block, Props } from './block';
 
-function isEqual(lhs, rhs) {
+function isEqual(lhs: string, rhs: string) {
     return lhs === rhs;
 }
 
-function render(query, block) {
+function render(query: string, block: Block, styles: string) {
     const root = document.querySelector(query);
-    root.textContent = block.getContent();
+    root?.append(block.getContent());
+    
+    console.log(document.querySelector('#forComponent'));
+    document.querySelector('#forComponent')?.remove();
+    const styleSheet = document.createElement('style');
+    styleSheet.setAttribute('id', 'forComponent');
+    styleSheet.innerText = styles;
+    document.head.appendChild(styleSheet);
     return root;
 }
 
 class Route {
     private _pathname: string;
-    private _blockClass: any;
+    private _blockClass: { new() : Block, getStyles(): string } ;
     private _block: Block | null;
-    private _props: any;
-    constructor(pathname, view, props) {
+    private _props: Props;
+    constructor(pathname: string, view:  { new() : Block, getStyles(): string }, props: Props) {
         this._pathname = pathname;
         this._blockClass = view;
         this._block = null;
         this._props = props;
     }
 
-    navigate(pathname) {
+    navigate(pathname: string) {
         if (this.match(pathname)) {
             this._pathname = pathname;
             this.render();
@@ -35,17 +42,16 @@ class Route {
         }
     }
 
-    match(pathname) {
+    match(pathname: string) {
         return isEqual(pathname, this._pathname);
     }
 
     render() {
         if (!this._block) {
             this._block = new this._blockClass();
-            render(this._props.rootQuery, this._block);
-            return;
         }
 
+        render('#app', this._block as Block, this._blockClass.getStyles());
         this._block.show();
     }
 }
@@ -57,19 +63,19 @@ class Router {
     private _rootQuery: string;
     static __instance: Router;
     constructor(rootQuery: string) {
-        if (Router.__instance) {
-            return Router.__instance;
-        }
-
         this.routes = [];
         this.history = window.history;
         this._currentRoute = undefined;
         this._rootQuery = rootQuery;
 
+        if (Router.__instance) {
+            return Router.__instance;
+        }
+
         Router.__instance = this;
     }
 
-    use(pathname, block) {
+    use(pathname: string, block:  { new() : Block, getStyles(): string }) {
         const route = new Route(pathname, block, {
             rootQuery: this._rootQuery,
         });
@@ -79,13 +85,13 @@ class Router {
 
     start() {
         window.onpopstate = (event) => {
-            this._onRoute(event.currentTarget.location.pathname);
+            this._onRoute((event.currentTarget as Window).location.pathname);
         };
 
         this._onRoute(window.location.pathname);
     }
 
-    _onRoute(pathname) {
+    _onRoute(pathname: string) {
         const route = this.getRoute(pathname);
 
         if (this._currentRoute) {
@@ -96,7 +102,7 @@ class Router {
         (route as Route).render();
     }
 
-    go(pathname) {
+    go(pathname: string) {
         this.history.pushState({}, '', pathname);
         this._onRoute(pathname);
     }
@@ -109,12 +115,9 @@ class Router {
         this.history.forward();
     }
 
-    getRoute(pathname) {
+    getRoute(pathname: string) {
         return this.routes.find((route) => route.match(pathname));
     }
 }
 
-// Необходимо оставить в силу особенностей тренажёра
-history.pushState({}, '', '/');
-
-const router = new Router('.app');
+export default new Router('#app');

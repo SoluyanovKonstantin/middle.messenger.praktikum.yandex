@@ -4,6 +4,7 @@ import style from './auth.css?inline';
 import { ButtonComponent } from '../../components/button/button';
 import { InputComponent } from '../../components/input/input';
 import { regExps } from '../../../utils/checkInput';
+import router from '../../../utils/router';
 
 class AuthComponent extends Block {
     constructor(props: Props = {}, events?: Events) {
@@ -32,16 +33,23 @@ class AuthComponent extends Block {
 
         if (this.components) {
             const obj: Record<string, string> = {};
-
+            let isError = false;
             Object.values(this.components)?.forEach((component) => {
                 const input = component.querySelector('input');
                 if (input) {
                     input.focus();
                     input.blur();
+                    if (input.classList.contains('input--alert')) {
+                        isError = true;
+                    }
                     obj[input.name] = input.value;
                 }
-            });
 
+            });
+            
+            if (!isError) {
+                router.go('/chat');
+            }
             console.log(obj);
         }
     }
