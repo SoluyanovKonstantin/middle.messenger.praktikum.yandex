@@ -4,13 +4,18 @@ import { Block } from '../../../utils/block';
 import { InputComponent } from '../../components/input/input';
 import { regExps } from '../../../utils/checkInput';
 import { ButtonComponent } from '../../components/button/button';
+import { AuthController } from '../../controllers/auth.controller';
+import { ISignUpData } from '../../api/auth.api';
+import router from '../../../utils/router';
 
 class RegistrationComponent extends Block {
+    private _authController: AuthController;
     constructor(props = {}) {
         super('registration-component', props, html, style);
 
         this.initComponents();
 
+        this._authController = new AuthController();
         RegistrationComponent._style = style + ButtonComponent.getStyles() + InputComponent.getStyles();
     }
 
@@ -40,8 +45,24 @@ class RegistrationComponent extends Block {
                 }
             });
 
+            if (this.isSignUpData(obj)) {
+                this._authController.signUp(obj).then(res => {
+                    if ((res as Response).status === 200) {
+                        router.go('/chat');
+                    }
+                });
+            }
             console.log(obj);
         }
+    }
+
+    private isSignUpData(data: object | ISignUpData): data is ISignUpData {
+        return !!(data as ISignUpData)?.['first_name'] &&
+               !!(data as ISignUpData)?.['second_name'] &&
+               !!(data as ISignUpData)?.['login'] &&
+               !!(data as ISignUpData)?.['email'] &&
+               !!(data as ISignUpData)?.['password'] &&
+               !!(data as ISignUpData)?.['phone'];
     }
 }
 

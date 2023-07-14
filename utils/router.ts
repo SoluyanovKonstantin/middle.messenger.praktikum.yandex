@@ -92,6 +92,7 @@ class Router {
     }
 
     _onRoute(pathname: string) {
+        console.log(pathname);
         const route = this.getRoute(pathname);
 
         if (this._currentRoute) {
