@@ -52,5 +52,9 @@ export default `
         </ul>
         <textarea type="text" placeholder="Писать сюда..." class="input chat__input" name="message"></textarea>
     </section>
+    <li for="let message of messages" class="chat__message {{ message.class }}">
+        <img class="chat-preview__image" src="/icon.svg" alt="">
+        <p class="chat__text">{{ message.text }}</p>
+    </li>
 </main>
 `

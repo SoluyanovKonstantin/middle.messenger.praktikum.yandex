@@ -6,9 +6,11 @@ function isEqual(lhs: string, rhs: string) {
 
 function render(query: string, block: Block, styles: string) {
     const root = document.querySelector(query);
-    root?.append(block.getContent());
+    if (root) {
+        root.textContent = '';
+        root.append(block.getContent());
+    }
     
-    console.log(document.querySelector('#forComponent'));
     document.querySelector('#forComponent')?.remove();
     const styleSheet = document.createElement('style');
     styleSheet.setAttribute('id', 'forComponent');
@@ -92,7 +94,6 @@ class Router {
     }
 
     _onRoute(pathname: string) {
-        console.log(pathname);
         const route = this.getRoute(pathname);
 
         if (this._currentRoute) {

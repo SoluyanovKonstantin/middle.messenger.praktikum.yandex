@@ -3,7 +3,8 @@ import { EventBus } from './event-bus';
 
 export type Props = {
     events?: Record<string, (event?: Event) => void>,
-    [index: string]: string | RegExp | Record<string, (event?: Event) => void> | undefined,
+    arrays?: Record<string, unknown[]>,
+    [index: string]: string | RegExp | Record<string, (event?: Event) => void> | Record<string, unknown[]> | undefined,
 }
 
 export type Events = Record<string, (event?: Event) => void>;

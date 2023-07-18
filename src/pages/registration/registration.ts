@@ -52,7 +52,6 @@ class RegistrationComponent extends Block {
                     }
                 });
             }
-            console.log(obj);
         }
     }
 
