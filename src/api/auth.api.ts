@@ -29,4 +29,12 @@ export class AuthApi {
     signUp(data: ISignUpData) {
         return this._http.post(this._url + 'signup', { data });
     }
+
+    getUser() {
+        return this._http.get(this._url + 'user');
+    }
+
+    logOut() {
+        return this._http.post(this._url + 'logout');
+    }
 }

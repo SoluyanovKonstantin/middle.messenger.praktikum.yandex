@@ -50,7 +50,7 @@ class HTTPTransport {
     // options:
     // headers — obj
     // data — obj
-    request = (url: string, options: { headers?: object, data?: unknown, method: METHODS }, timeout = 5000) => {
+    request = (url: string, options: { headers?: object, data?: unknown, method: METHODS }, timeout = 5000): Promise<XMLHttpRequest> => {
 
         return new Promise((res, rej) => {
 
@@ -64,9 +64,10 @@ class HTTPTransport {
             }
 
             xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.setRequestHeader('accept', 'application/json');
+            xhr.withCredentials = true;
 
             xhr.onload = function () {
-                console.log(xhr);
                 res(xhr);
             };
 

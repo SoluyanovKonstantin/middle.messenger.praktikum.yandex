@@ -23,4 +23,18 @@ export class AuthController {
             })
             .catch(err => console.error(err));
     }
+
+    getUser() {
+        return this._authApi.getUser()
+            .then(res => {
+                return JSON.parse(res.response);
+            });
+    }
+
+    logout() {
+        return this._authApi.logOut()
+            .catch(err => {
+                console.error(err);
+            });
+    }
 }

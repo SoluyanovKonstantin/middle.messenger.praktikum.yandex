@@ -7,10 +7,10 @@ import { ErrorComponent } from './pages/error/error';
 import { SettingsComponent } from './pages/settings/settings';
 
 router
-    .use('/', RegistrationComponent)
-    .use('/registration', RegistrationComponent)
+    .use('/', AuthComponent)
+    .use('/sign-up', RegistrationComponent)
     .use('/auth', AuthComponent)
-    .use('/chat', ChatComponent)
+    .use('/messenger', ChatComponent)
     .use('/error', ErrorComponent)
     .use('/settings', SettingsComponent)
     .start();

@@ -56,12 +56,11 @@ class AuthComponent extends Block {
 
             if (!isError) {
                 this._authController.signIn(obj).then((res) => {
-                    if ((res as Response).status === 200) {
-                        router.go('/chat');
+                    if (res?.status === 200) {
+                        router.go('/messenger');
                     }
                 });
             }
-            console.log(obj);
         }
     }
 }

@@ -12,40 +12,6 @@ export class TemplateEngine {
         this.style = style;
     }
 
-    parseTemplate() {
-        const tagsInTemplateRegExp = /(<[^/][\s\S]*?>)/g;
-        const regExpResult = tagsInTemplateRegExp.exec(this.template);
-        const templateCopy = this.template;
-        const index = regExpResult?.index;
-        const endOfTagIndex = Number(index) + Number(regExpResult?.[1]?.length);
-        let templateAfterTag = templateCopy.slice(endOfTagIndex);
-        const templateAfterTagCopy = templateAfterTag;
-        const tag = regExpResult?.[1].slice(1,-1).split(' ').filter(el => el !== '\n' && el !== '');
-        const closingTagRegExp = new RegExp(`</${tag?.[0]}>`);
-        let isContinue = true;
-        let templateInsideTag = '';
-        let shift = 0;
-        while (isContinue) {
-            const closingTag = closingTagRegExp.exec(templateAfterTag);
-            templateInsideTag = templateAfterTagCopy.slice(0, Number(closingTag?.index) + shift);
-            const reg = new RegExp(`<${tag?.[0]}>`, 'g');
-            if (!templateAfterTag.match(reg)?.length) {
-                isContinue = false;
-            } else {
-                shift = Number(closingTag?.index) + Number(closingTag?.[0].length);
-                templateAfterTag =  templateAfterTag.slice(shift);
-            }
-        }
-
-        if (tag) {
-            const el = document.createElement(tag[0]);
-            tag.slice(1).forEach(attr => {
-                const [ key, value = '' ] = attr.split('=');
-                el.setAttribute(key, value);
-            });
-        }
-    }
-
     findClosingTagIndex(tag: string, startIndex: number, template: string) {
         let nestCount = 0;
         let string = '';
@@ -69,13 +35,10 @@ export class TemplateEngine {
         return null;
     }
 
-
-    compile(variables: Props, components: Record<string, HTMLElement> = {}) {
-        const variableInTemplateRegExp = /\{\{.*?\}\}/g;
+    handleLoopsInTemplate(template: string, variables: Props) {
         const forInTemplateRegExp = /<.* for="let [a-zA-Z]* of [a-zA-Z]*".*>/g;
-        
-        let newTemplate = this.template;
         let forInTemplate : RegExpExecArray | null;
+        let newTemplate = template;
 
         do {
             forInTemplate = forInTemplateRegExp.exec(newTemplate);
@@ -115,7 +78,22 @@ export class TemplateEngine {
                 newTemplate = newTemplate.replace(forTemplate, finalForTemplate.replace(/for="let [a-zA-Z]* of [a-zA-Z]*"/, ''));
             }
         } while (forInTemplate);
+
+        return newTemplate;
+    }
+
+    handleOnClickInTemplate(template: string, variables: Props) {
+        const clickInTemplateRegExp = /(click)=".*"/g;
+    }
+
+
+    compile(variables: Props, components: Record<string, HTMLElement> = {}) {
+        const variableInTemplateRegExp = /\{\{.*?\}\}/g;
         
+        let newTemplate = this.template;
+        
+        newTemplate = this.handleLoopsInTemplate(newTemplate, variables);
+
         newTemplate.match(variableInTemplateRegExp)?.forEach(key => {
             const trimmedKeyWithoutBracket = key.replaceAll(/\{\{ | \}\}/g, '');
             const variable = variables[trimmedKeyWithoutBracket];

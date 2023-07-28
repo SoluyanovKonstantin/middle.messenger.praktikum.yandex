@@ -4,7 +4,7 @@ import { EventBus } from './event-bus';
 export type Props = {
     events?: Record<string, (event?: Event) => void>,
     arrays?: Record<string, unknown[]>,
-    [index: string]: string | RegExp | Record<string, (event?: Event) => void> | Record<string, unknown[]> | undefined,
+    [index: string]: string | RegExp | Record<string, (event?: Event) => void> | Record<string, unknown[]> | (() => void) | undefined,
 }
 
 export type Events = Record<string, (event?: Event) => void>;
