@@ -1,7 +1,5 @@
 import './style.css';
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore  
-import router from '/utils/router';
+import router from '../utils/router';
 import { RegistrationComponent } from './pages/registration/registration';
 import { AuthComponent } from './pages/auth/auth';
 import { ChatComponent } from './pages/chats/chat';
