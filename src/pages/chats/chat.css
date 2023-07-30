@@ -218,22 +218,22 @@
         font-size: 20px;
         font-weight: bold;
     }
+
+    &__wrapper {
+        display: none;
+        width: 0px;
+        overflow-y: hidden;
+    }
 }
 
 .shadow {
     top: 0;
     left: 0;
     position: absolute;
-    background-color: rgba(0, 0, 0, 0.8);
+    background-color: rgba(0, 0, 0, 80%);
     width: 100dvw;
     height: 100dvh;
     z-index: 1;
-}
-
-.left-side-menu__wrapper {
-    display: none;
-    width: 0px;
-    overflow-y: hidden;
 }
 
 .add-users-chat-popup,
@@ -249,13 +249,13 @@
     display: none;
     flex-direction: column;
     gap: 10px;
-}
 
-.create-chat-popup__btn {
-    padding-top: 10px;
-    padding-bottom: 10px;
-    background-color: var(--blue);
-    border-radius: 15px;
+    &__btn {
+        padding-top: 10px;
+        padding-bottom: 10px;
+        background-color: var(--blue);
+        border-radius: 15px;
+    }
 }
 
 .input-component {
