@@ -26,7 +26,8 @@ export class UserController {
     }
 
     changeUserAvatar(data: FormData) {
-        return this._userApi.changeUserAvatar(data);
+        return this._userApi.changeUserAvatar(data)
+            .then(res => JSON.parse(res.response));
     }
 
 }

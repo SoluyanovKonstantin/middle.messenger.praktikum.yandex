@@ -16,13 +16,15 @@ class SettingsComponent extends Block {
 
         const events = {
             change: (ev: Event | undefined) => {
-                console.log((ev?.target as HTMLInputElement)?.files);
                 const files = (ev?.target as HTMLInputElement)?.files;
                 if (files) {
                     const form = document.getElementById('avatar');
                     const formData = new FormData(form as HTMLFormElement);
-                    console.log(formData.get('avatar'), files[0]);
-                    this._userController.changeUserAvatar(formData);
+                    this._userController.changeUserAvatar(formData).then((res: {avatar: string}) => {
+                        if (res.avatar) {
+                            (document.querySelector('.form__icon') as HTMLImageElement).src = import.meta.env.VITE_API_URL + 'resources' + res.avatar;
+                        }
+                    });
                 }
             }
         };
@@ -91,6 +93,10 @@ class SettingsComponent extends Block {
                 (document.querySelector('input[name=login]') as HTMLInputElement).value = res.login;
                 (document.querySelector('input[name=email]') as HTMLInputElement).value = res.email || '';
                 (document.querySelector('input[name=phone]') as HTMLInputElement).value = res.phone || '';
+
+                if (res.avatar) {
+                    (document.querySelector('.form__icon') as HTMLImageElement).src = import.meta.env.VITE_API_URL + 'resources' + res.avatar;
+                }
             });
     }
 

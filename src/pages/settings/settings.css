@@ -23,6 +23,10 @@
     &--without-gap {
         gap: 0;
     }
+
+    &__icon {
+        border-radius: 50%;
+    }
 }
 
 .buttons {
