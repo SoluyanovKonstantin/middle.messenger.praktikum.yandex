@@ -1,4 +1,4 @@
-import{m as g}from"./block-67ee72f6-f6845175.js";import{l as o,u as m,b as t}from"./button-369258d7-e9cae574.js";const _=`
+import{d as g}from"./block-67ee72f6-f6845175-8b95902b.js";import{l as o,u as m,h as t}from"./button-369258d7-e9cae574-40d8f027.js";const _=`
 <main class="body">
     <form class="form form--without-gap">
         <img class="form__icon" src="/icon.svg" alt="">

@@ -1,4 +1,4 @@
-import{m as a}from"./block-67ee72f6-f6845175.js";const s=`
+import{d as a}from"./block-67ee72f6-f6845175-8b95902b.js";const s=`
 <main class="body">
     <section class="chat-preview__container">
         <div class="search__wrapper">
