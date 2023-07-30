@@ -27,6 +27,7 @@ class ChatComponent extends Block {
 
     constructor(events: Record<string, (event?: Event) => void> = {}) {
         let isControlPressed = false;
+
         events.click = async (ev) => {
             if ((ev?.target as HTMLElement)?.closest('#click-at-sandwich')) {
                 const shadowWrapper: HTMLElement | null = document.querySelector('#left-side-menu-wrapper');
@@ -215,6 +216,19 @@ class ChatComponent extends Block {
         this._authController.getUser().then(res => {
             this._userId = res.id;
         });
+
+        window.onload = (ev) => {
+            const targetNode = document.querySelector('.chat');
+            const config = { attributes: true, childList: true, subtree: true };
+
+            const observer = new MutationObserver(() => {
+                document.querySelector('.chat__feed')?.scrollTo(0, 100000);
+            });
+            if (targetNode) {
+                observer.observe(document as Node, config);
+            }
+        };
+
     }
 
     protected initComponents(): void {
