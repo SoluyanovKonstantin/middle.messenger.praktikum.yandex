@@ -9,7 +9,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "start": "npm run build && node server.js",
+    "start": "npm run build && node server.js && cp _redirects build/_redirects",
     "preview": "vite preview",
     "lint": "eslint . && stylelint . && tsc --noEmit"
   },
