@@ -7,7 +7,7 @@ import { ErrorComponent } from './pages/error/error';
 import { SettingsComponent } from './pages/settings/settings';
 
 router
-    .use('/', AuthComponent)
+    .use('', AuthComponent)
     .use('/sign-up', RegistrationComponent)
     .use('/auth', AuthComponent)
     .use('/messenger', ChatComponent)
