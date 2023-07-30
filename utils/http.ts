@@ -10,11 +10,11 @@ enum METHODS {
 * На входе: объект. Пример: {a: 1, b: 2, c: {d: 123}, k: [1, 2, 3]}
 * На выходе: строка. Пример: ?a=1&b=2&c=[object Object]&k=1,2,3
 */
-function queryStringify(data: object) {
+function queryStringify(data: Record<string, string | Array<string>>) {
     // Можно делать трансформацию GET-параметров в отдельной функции
     let str = '?';
     Object.keys(data).forEach(key => {
-        str += `${key}=${Array.isArray(data[key]) ? data[key].join(',') : data[key]}&`;
+        str += `${key}=${Array.isArray(data[key]) ? (data[key] as string[]).join(',') : data[key]}&`;
     });
 
     str = str.replace(/&$/, '');
@@ -22,25 +22,25 @@ function queryStringify(data: object) {
     return str;
 }
 
-type Options = { headers?: object, data?: object, timeout?: number}
+type Options = { headers?: object, data?: unknown, timeout?: number, ContentType?: string}
 
 class HTTPTransport {
-    get = (url, options: Options = {}) => {
+    get = (url: string, options: Options = {}) => {
 
         return this.request(url, { ...options, method: METHODS.GET }, options.timeout);
     };
 
-    put = (url, options: Options = {}) => {
+    put = (url: string, options: Options = {}) => {
 
         return this.request(url, { ...options, method: METHODS.PUT }, options.timeout);
     };
 
-    post = (url, options: Options = {}) => {
+    post = (url: string, options: Options = {}) => {
 
         return this.request(url, { ...options, method: METHODS.POST }, options.timeout);
     };
 
-    delete = (url, options: Options = {}) => {
+    delete = (url: string, options: Options = {}) => {
 
         return this.request(url, { ...options, method: METHODS.DELETE }, options.timeout);
     };
@@ -50,7 +50,7 @@ class HTTPTransport {
     // options:
     // headers — obj
     // data — obj
-    request = (url: string, options: { headers?: object, data?: object, method: METHODS }, timeout = 5000) => {
+    request = (url: string, options: { headers?: object, data?: unknown, method: METHODS, ContentType?: string }, timeout = 5000): Promise<XMLHttpRequest> => {
 
         return new Promise((res, rej) => {
 
@@ -58,20 +58,26 @@ class HTTPTransport {
             const xhr = new XMLHttpRequest();
 
             if (method === 'GET' && data) {
-                xhr.open(method, url + queryStringify(data));
+                xhr.open(method, url + queryStringify(data as Record<string, string | string[]>));
             } else {
                 xhr.open(method, url);
             }
 
-            xhr.setRequestHeader('Content-Type', 'text/plain');
+            if (!(data instanceof FormData)) {
+                xhr.setRequestHeader('Content-Type', options.ContentType || 'application/json');
+            }
+            xhr.withCredentials = true;
+            let formData = data;
+
+            if (options.ContentType === 'application/json' || !options.ContentType && !(data instanceof FormData)) {
+                formData = JSON.stringify(data);
+            }
 
             xhr.onload = function () {
-                console.log(xhr);
                 res(xhr);
             };
 
-            const handleError = err => {
-                console.log(err);
+            const handleError = (err: ProgressEvent) => {
                 rej(err);
             };
           
@@ -84,7 +90,7 @@ class HTTPTransport {
             if (method === 'GET' || !data) {
                 xhr.send();
             } else {
-                xhr.send(JSON.stringify(data));
+                xhr.send(formData as XMLHttpRequestBodyInit);
             }
         });
 

@@ -5,7 +5,14 @@ import { checkInput } from '../../../utils/checkInput';
 
 class InputComponent extends Block {
     constructor(props: Props = {}) {
-        props.events = { focusout: (event: Event | undefined) => { 
+        if (!props.events) {
+            props.events = {};
+        }
+
+        props.events.focusout = (event: Event | undefined) => {
+            if (!this.props['regExp']) {
+                return;
+            }
             const input = event?.target as HTMLInputElement;
             const checkResult = checkInput((this.props['regExp'] as RegExp), input);
             const inputName = this.props.name;
@@ -17,7 +24,7 @@ class InputComponent extends Block {
                 input.classList.remove('input--alert');
                 input.parentElement?.classList.remove(`input-wrapper--alert-${inputName}`);
             }
-        }};
+        };
 
         super('input-component', props, html, style);
 

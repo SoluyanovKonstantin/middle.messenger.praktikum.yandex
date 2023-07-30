@@ -4,15 +4,19 @@ import style from './auth.css?inline';
 import { ButtonComponent } from '../../components/button/button';
 import { InputComponent } from '../../components/input/input';
 import { regExps } from '../../../utils/checkInput';
+import router from '../../../utils/router';
+import { AuthController } from '../../controllers/auth.controller';
 
 class AuthComponent extends Block {
+    private _authController: AuthController;
+
     constructor(props: Props = {}, events?: Events) {
         props.events = events;
 
         super('auth-component', props, html, style);
 
         this.initComponents();
-
+        this._authController = new AuthController();
         AuthComponent._style = style + ButtonComponent.getStyles() + InputComponent.getStyles();
     }
 
@@ -23,26 +27,41 @@ class AuthComponent extends Block {
             text: 'Войти',
             events: { 'click': ev => this.onSubmit(ev as Event) }
         }).getContent();
+        const regisctrationButton = new ButtonComponent({
+            text: 'Зарегистрироваться',
+            events: { 'click': (ev) => { ev?.preventDefault(); router.go('/sign-up'); } }
+        }).getContent();
 
-        this.components = { buttonComponent, loginComponent, passwordComponent };
+        this.components = { buttonComponent, loginComponent, passwordComponent, regisctrationButton };
     }
 
-    onSubmit(ev: Event) {
+    async onSubmit(ev: Event) {
         ev.preventDefault();
 
         if (this.components) {
-            const obj: Record<string, string> = {};
-
+            const obj = { login: '', password: '' };
+            let isError = false;
             Object.values(this.components)?.forEach((component) => {
                 const input = component.querySelector('input');
                 if (input) {
                     input.focus();
                     input.blur();
-                    obj[input.name] = input.value;
+                    if (input.classList.contains('input--alert')) {
+                        isError = true;
+                    }
+                    obj[input.name as 'login' | 'password'] = input.value;
                 }
+
             });
 
-            console.log(obj);
+            if (!isError) {
+                await this._authController.logout();
+                const res = await this._authController.signIn(obj);
+
+                if (res?.status === 200) {
+                    router.go('/messenger');
+                }
+            }
         }
     }
 }
