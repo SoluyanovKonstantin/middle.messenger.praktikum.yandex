@@ -281,6 +281,12 @@ class ChatComponent extends Block {
                         newEl.textContent = user.login;
                         const removeEl = document.createElement('span');
                         removeEl.textContent = 'Убрать';
+
+                        removeEl.addEventListener('click', (ev) => {
+                            this._usersToChat = this._usersToChat.filter(item => item.login !== user.login);
+                            newEl.remove();
+                        });
+
                         newEl.append(removeEl);
 
                         parentElement.querySelector('.users-in-chat')?.append(newEl);

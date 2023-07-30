@@ -5,9 +5,9 @@
 - npm run start Сборка и запуск проекта
 
 Деплой:
-- https://deploy--cheery-fairy-722635.netlify.app/auth
-- https://deploy--cheery-fairy-722635.netlify.app/registration
-- https://deploy--cheery-fairy-722635.netlify.app/chat
+- https://deploy--cheery-fairy-722635.netlify.app/
+- https://deploy--cheery-fairy-722635.netlify.app/sign-up
+- https://deploy--cheery-fairy-722635.netlify.app/messenger
 - https://deploy--cheery-fairy-722635.netlify.app/error?errorCode=404
 - https://deploy--cheery-fairy-722635.netlify.app/error?errorCode=500
 - https://deploy--cheery-fairy-722635.netlify.app/settings
