@@ -5,7 +5,7 @@
 - npm run start Сборка и запуск проекта
 
 Деплой:
-- https://deploy--cheery-fairy-722635.netlify.app/
+- https://deploy--cheery-fairy-722635.netlify.app
 - https://deploy--cheery-fairy-722635.netlify.app/sign-up
 - https://deploy--cheery-fairy-722635.netlify.app/messenger
 - https://deploy--cheery-fairy-722635.netlify.app/error?errorCode=404
