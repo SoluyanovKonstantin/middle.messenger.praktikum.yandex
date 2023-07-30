@@ -1,5 +1,5 @@
 assets/* /dist/assets/:splat 200
 /vite.svg /dist/vite.svg
 /icon.svg /dist/icon.svg
-/index.html /dist/index.html 200
+/ /dist/index.html 200
 /* /dist/index.html 200
