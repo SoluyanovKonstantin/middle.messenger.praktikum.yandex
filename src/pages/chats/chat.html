@@ -10,11 +10,16 @@ export default `
                 <exitButton></exitButton>
             </div>
         </section>
-        <section class="create-chat-popup">
+        <section class="create-chat-popup popup-with-users">
             <createChatInputComponent class="input-component create-chat-name"></createChatInputComponent>
             <addUserToChatBeforeCreateChatComponent class="input-component"></addUserToChatBeforeCreateChatComponent>
-            <ul id="users-for-chat"></ul>
+            <ul class="users-for-chat"></ul>
             <createChatButtonComponent class="create-chat-popup__btn"></createChatButtonComponent>
+        </section>
+        <section class="add-users-chat-popup popup-with-users">
+            <addUserToChatComponent class="input-component"></addUserToChatComponent>
+            <ul class="users-for-chat"></ul>
+            <addUserToChatButtonComponent class="create-chat-popup__btn"></addUserToChatButtonComponent>
         </section>
         <div id="shadow" class="shadow"></div>
     </div>
@@ -36,6 +41,9 @@ export default `
         </ul>
     </section>
     <section class="chat">
+        <div class="chat__title">
+            <span class="clickable" id="chat-settings">{{ chatTitle }}</span>
+        </div>
         <ul class="chat__feed">
             <li for="let message of messages" class="chat__message {{ message.class }}">
                 <img class="chat-preview__image" src="/icon.svg" alt="">

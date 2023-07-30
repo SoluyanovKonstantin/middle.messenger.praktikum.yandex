@@ -21,24 +21,39 @@ class ChatComponent extends Block {
     private _messages: unknown[] = [];
     private _chatSocket: WebSocket | undefined;
     private _messageIndex = 0;
+    private _chatTitle = ' ';
+    private _chatId: number | undefined = undefined;
 
     constructor(events: Record<string, (event?: Event) => void> = {}) {
         let isControlPressed = false;
         events.click = async (ev) => {
             if ((ev?.target as HTMLElement)?.closest('#click-at-sandwich')) {
                 const shadowWrapper: HTMLElement | null = document.querySelector('#left-side-menu-wrapper');
+                const popup = document.querySelector('.add-users-chat-popup');
+                const leftSideMenu = document.querySelector('.left-side-menu');
+                if (leftSideMenu) {
+                    (leftSideMenu as HTMLElement).style.display = 'flex';
+                }
                 if (shadowWrapper) {
                     shadowWrapper.style.display = 'flex';
+                }
+                if (popup) {
+                    (popup as HTMLElement).style.display = 'none';
                 }
             }
             if ((ev?.target as HTMLElement)?.closest('#shadow')) {
                 const shadowWrapper: HTMLElement | null = document.querySelector('#left-side-menu-wrapper');
+                const popup = document.querySelector('.add-users-chat-popup');
+
                 if (shadowWrapper) {
                     shadowWrapper.style.display = 'none';
                 }
                 const createChatElement: HTMLElement | null = document.querySelector('.create-chat-popup');
                 if (createChatElement) {
                     createChatElement.style.display = 'none';
+                }
+                if (popup) {
+                    (popup as HTMLElement).style.display = 'none';
                 }
             }
 
@@ -53,22 +68,38 @@ class ChatComponent extends Block {
                 router.go('/settings');
             }
 
+            if ((ev?.target as HTMLElement)?.closest('#chat-settings')) {
+                const popup = document.querySelector('.add-users-chat-popup');
+                const shadowWrapper: HTMLElement | null = document.querySelector('#left-side-menu-wrapper');
+                const leftSideMenu = document.querySelector('.left-side-menu');
+                if (shadowWrapper) {
+                    shadowWrapper.style.display = 'flex';
+                }
+                if (popup) {
+                    (popup as HTMLElement).style.display = 'flex';
+                }
+                if (leftSideMenu) {
+                    (leftSideMenu as HTMLElement).style.display = 'none';
+                }
+            }
+
             if ((ev?.target as HTMLElement)?.closest('.chat-preview')) {
                 const chatId = (ev?.target as HTMLElement).dataset['id']?.split('-')[1];
                 this._messages = [];
-                this.setProps({ arrays: { messages: this._messages, chats: this._chats } });
+                this.setProps({ arrays: { messages: this._messages, chats: this._chats }, chatTitle: this._chatTitle });
                 if (this._chatSocket) {
                     this._chatSocket.close(1000);
                     this._chatSocket = undefined;
                 }
+
+                this._chatTitle = (ev?.target as HTMLElement)?.closest('.chat-preview')?.querySelector('.chat-preview__text--title')?.textContent || ' ';
+                this._chatId = Number(chatId);
 
                 if (chatId !== undefined && this._userId) {
                     const {token} = await this._chatController.getToken(String(chatId));
                     this._chatSocket = this._webSocketController.connectChat(String(this._userId), String(chatId), token);
 
                     this._chatSocket.onopen = (ev) => {
-                        console.log(ev, 'open');
-
                         this._chatSocket?.send(JSON.stringify({
                             content: '0',
                             type: 'get old'
@@ -113,7 +144,7 @@ class ChatComponent extends Block {
                         }
 
 
-                        this.setProps({ arrays: { messages: this._messages, chats: this._chats } });
+                        this.setProps({ arrays: { messages: this._messages, chats: this._chats }, chatTitle: this._chatTitle });
                     });
                 }
             }
@@ -126,7 +157,6 @@ class ChatComponent extends Block {
             const isEnterPressed = Boolean(!(ev as KeyboardEvent).repeat && (ev?.target as HTMLElement).closest('#chat-textarea') && (ev as KeyboardEvent).key === 'Enter');
 
             if (isControlPressed && isEnterPressed) {
-                console.log(((ev?.target as HTMLElement).closest('#chat-textarea') as HTMLTextAreaElement)?.value);
                 const message = ((ev?.target as HTMLElement).closest('#chat-textarea') as HTMLTextAreaElement)?.value;
                 this._chatSocket?.send(JSON.stringify({
                     content: message,
@@ -142,6 +172,7 @@ class ChatComponent extends Block {
         const variables = {
             fullMessage: 'Полное сообщение',
             message: 'Последнее сообщение из ...',
+            chatTitle: ' ',
             events,
             showLeftSideMenu: () => {
                 console.log(this, 'hello');
@@ -168,7 +199,7 @@ class ChatComponent extends Block {
                 (chat as {index: number}).index = index;
                 return chat;
             });
-            this.setProps({ arrays: { chats } });
+            this.setProps({ arrays: { chats }, chatTitle: this._chatTitle });
             this._chats = chats as {id: number}[];
         });
 
@@ -187,6 +218,15 @@ class ChatComponent extends Block {
                 await this._chatController.addUserToChat({ users: this._usersToChat.map(user => Number(user.id)), chatId: chat.id });
             } }
         }).getContent();
+
+        const addUserToChatButtonComponent = new ButtonComponent({
+            text: 'Добавить пользователей',
+            events: { 'click': async ev => {
+                if (this._chatId) {
+                    await this._chatController.addUserToChat({ users: this._usersToChat.map(user => Number(user.id)), chatId: this._chatId});
+                }
+            } }
+        }).getContent();
         const exitButton = new ButtonComponent({
             text: 'Выйти',
             class: 'button--exit',
@@ -197,31 +237,43 @@ class ChatComponent extends Block {
                     });
             } }
         }).getContent();
+        
         const addUserToChatBeforeCreateChatComponent = new InputComponent({ placeholder: 'Найти пользователя', type: 'text', events: {
             input: (ev) => {
                 const login = (ev?.target as HTMLInputElement)?.value;
-                this._userController.searchUser(login).then(val => {
-                    const usersElement = document.querySelector('#users-for-chat');
-                    if (val && usersElement) {
-                        usersElement.textContent = '';
-                        const elements: Node[] = [];
-                        val.forEach((user, index) => {
-                            const el = document.createElement('li');
-                            el.textContent = user.login;
-                            el.dataset['id'] = String(index);
-                            el.addEventListener('click', (ev) => {
-                                this._usersToChat.push(user);
-                            });
-                            elements.push(el);
-                        });
-
-                        usersElement.append(...elements);
-                    }
-
-                });
+                this._addUsers((ev?.target as HTMLInputElement).closest('.popup-with-users') as HTMLElement, login);
             }
         } }).getContent();
-        this.components = { createChatButtonComponent, createChatInputComponent, addUserToChatBeforeCreateChatComponent, exitButton };
+
+        const addUserToChatComponent = new InputComponent( {placeholder: 'Найти пользователя', type: 'text', events: {
+            input: (ev) => {
+                const login = (ev?.target as HTMLInputElement).value;
+                this._addUsers((ev?.target as HTMLInputElement).closest('.popup-with-users') as HTMLElement, login);
+            }
+        }} ).getContent();
+        this.components = { createChatButtonComponent, createChatInputComponent, addUserToChatBeforeCreateChatComponent, exitButton, addUserToChatComponent, addUserToChatButtonComponent };
+    }
+
+    private _addUsers(el: HTMLElement, login: string) {
+        this._userController.searchUser(login).then(val => {
+            const usersElement = el?.querySelector('.users-for-chat');
+            if (val && usersElement) {
+                usersElement.textContent = '';
+                const elements: Node[] = [];
+                val.forEach((user, index) => {
+                    const el = document.createElement('li');
+                    el.textContent = user.login;
+                    el.dataset['id'] = String(index);
+                    el.addEventListener('click', (ev) => {
+                        this._usersToChat.push(user);
+                    });
+                    elements.push(el);
+                });
+
+                usersElement.append(...elements);
+            }
+
+        });
     }
 }
 

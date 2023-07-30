@@ -29,7 +29,7 @@ class AuthComponent extends Block {
         }).getContent();
         const regisctrationButton = new ButtonComponent({
             text: 'Зарегистрироваться',
-            events: { 'click': (ev) => { ev?.preventDefault(); router.go('/registration'); } }
+            events: { 'click': (ev) => { ev?.preventDefault(); router.go('/sign-up'); } }
         }).getContent();
 
         this.components = { buttonComponent, loginComponent, passwordComponent, regisctrationButton };

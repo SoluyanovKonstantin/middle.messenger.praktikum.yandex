@@ -47,7 +47,7 @@ class RegistrationComponent extends Block {
 
             if (this.isSignUpData(obj)) {
                 this._authController.signUp(obj).then(res => {
-                    if ((res as Response).status === 200) {
+                    if (res?.status === 200) {
                         router.go('/chat');
                     }
                 });
