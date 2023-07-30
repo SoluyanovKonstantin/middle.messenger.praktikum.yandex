@@ -22,7 +22,7 @@ function queryStringify(data: Record<string, string | Array<string>>) {
     return str;
 }
 
-type Options = { headers?: object, data?: unknown, timeout?: number}
+type Options = { headers?: object, data?: unknown, timeout?: number, ContentType?: string}
 
 class HTTPTransport {
     get = (url: string, options: Options = {}) => {
@@ -50,7 +50,7 @@ class HTTPTransport {
     // options:
     // headers — obj
     // data — obj
-    request = (url: string, options: { headers?: object, data?: unknown, method: METHODS }, timeout = 5000): Promise<XMLHttpRequest> => {
+    request = (url: string, options: { headers?: object, data?: unknown, method: METHODS, ContentType?: string }, timeout = 5000): Promise<XMLHttpRequest> => {
 
         return new Promise((res, rej) => {
 
@@ -63,9 +63,15 @@ class HTTPTransport {
                 xhr.open(method, url);
             }
 
-            xhr.setRequestHeader('Content-Type', 'application/json');
-            xhr.setRequestHeader('accept', 'application/json');
+            if (!(data instanceof FormData)) {
+                xhr.setRequestHeader('Content-Type', options.ContentType || 'application/json');
+            }
             xhr.withCredentials = true;
+            let formData = data;
+
+            if (options.ContentType === 'application/json' || !options.ContentType && !(data instanceof FormData)) {
+                formData = JSON.stringify(data);
+            }
 
             xhr.onload = function () {
                 res(xhr);
@@ -84,7 +90,7 @@ class HTTPTransport {
             if (method === 'GET' || !data) {
                 xhr.send();
             } else {
-                xhr.send(JSON.stringify(data));
+                xhr.send(formData as XMLHttpRequestBodyInit);
             }
         });
 

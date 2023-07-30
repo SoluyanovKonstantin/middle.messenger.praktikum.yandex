@@ -43,4 +43,8 @@ export class UserApi {
         return this._http.put(this._url + 'password', { data });
     }
 
+    changeUserAvatar(data: FormData) {
+        return this._http.put(this._url + 'profile/avatar', { data, ContentType: 'multipart/form-data' });
+    }
+
 }

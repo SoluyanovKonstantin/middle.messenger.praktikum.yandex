@@ -25,4 +25,8 @@ export class UserController {
             .catch(err => console.error(err));
     }
 
+    changeUserAvatar(data: FormData) {
+        return this._userApi.changeUserAvatar(data);
+    }
+
 }

@@ -14,8 +14,19 @@ class SettingsComponent extends Block {
 
     constructor() {
 
-
-        super('chat-component', {}, html, style);
+        const events = {
+            change: (ev: Event | undefined) => {
+                console.log((ev?.target as HTMLInputElement)?.files);
+                const files = (ev?.target as HTMLInputElement)?.files;
+                if (files) {
+                    const form = document.getElementById('avatar');
+                    const formData = new FormData(form as HTMLFormElement);
+                    console.log(formData.get('avatar'), files[0]);
+                    this._userController.changeUserAvatar(formData);
+                }
+            }
+        };
+        super('chat-component', {events}, html, style);
         this._authController = new AuthController();
         this._userController = new UserController();
 
