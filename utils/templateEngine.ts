@@ -82,11 +82,6 @@ export class TemplateEngine {
         return newTemplate;
     }
 
-    handleOnClickInTemplate(template: string, variables: Props) {
-        const clickInTemplateRegExp = /(click)=".*"/g;
-    }
-
-
     compile(variables: Props, components: Record<string, HTMLElement> = {}) {
         const variableInTemplateRegExp = /\{\{.*?\}\}/g;
         

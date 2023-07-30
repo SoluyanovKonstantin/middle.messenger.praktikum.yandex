@@ -75,7 +75,7 @@ class ChatComponent extends Block {
                 const userId =  el.dataset['id'];
                 if (this._chatId && userId) {
                     this._chatController.deleteChatUsers(String(this._chatId), userId)
-                        .then(res => {
+                        .then(() => {
                             el.parentElement?.remove();
                         });
                 }
@@ -114,7 +114,7 @@ class ChatComponent extends Block {
                     const {token} = await this._chatController.getToken(String(chatId));
                     this._chatSocket = this._webSocketController.connectChat(String(this._userId), String(chatId), token);
 
-                    this._chatSocket.onopen = (ev) => {
+                    this._chatSocket.onopen = () => {
                         this._chatSocket?.send(JSON.stringify({
                             content: '0',
                             type: 'get old'
@@ -144,10 +144,9 @@ class ChatComponent extends Block {
                             const messages = (JSON.parse(message.data) as { user_id: number, class: string }[]).map(message => {
                                 message.class = message.user_id === Number(this._userId) ? 'chat__message--left' : 'chat__message--right';
                                 return message;
-                            });
+                            }).reverse();
     
-                            this._messages.push(...messages);
-
+                            this._messages.unshift(...messages);
                             
                             this._chatSocket?.send(JSON.stringify({
                                 content: this._messageIndex,
@@ -171,6 +170,7 @@ class ChatComponent extends Block {
 
             if (isControlPressed && isEnterPressed) {
                 const message = ((ev?.target as HTMLElement).closest('#chat-textarea') as HTMLTextAreaElement)?.value;
+                console.log(message);
                 this._chatSocket?.send(JSON.stringify({
                     content: message,
                     type: 'message',
@@ -217,7 +217,7 @@ class ChatComponent extends Block {
             this._userId = res.id;
         });
 
-        window.onload = (ev) => {
+        window.onload = () => {
             const targetNode = document.querySelector('.chat');
             const config = { attributes: true, childList: true, subtree: true };
 
@@ -235,7 +235,7 @@ class ChatComponent extends Block {
         const createChatInputComponent = new InputComponent({ placeholder: 'Название чата', type: 'text', name: 'create-chat'}).getContent();
         const createChatButtonComponent = new ButtonComponent({
             text: 'Создать чат',
-            events: { 'click': async ev => {
+            events: { 'click': async () => {
                 const chatName = (document.querySelector('.create-chat-name input') as HTMLInputElement).value;
                 const chat: {id: number} = await this._chatController.createChat(chatName) as {id: number};
                 await this._chatController.addUserToChat({ users: this._usersToChat.map(user => Number(user.id)), chatId: chat.id });
@@ -244,7 +244,7 @@ class ChatComponent extends Block {
 
         const addUserToChatButtonComponent = new ButtonComponent({
             text: 'Добавить пользователей',
-            events: { 'click': async ev => {
+            events: { 'click': async () => {
                 if (this._chatId) {
                     await this._chatController.addUserToChat({ users: this._usersToChat.map(user => Number(user.id)), chatId: this._chatId});
                 }
@@ -253,9 +253,9 @@ class ChatComponent extends Block {
         const exitButton = new ButtonComponent({
             text: 'Выйти',
             class: 'button--exit',
-            events: { 'click': async ev => {
+            events: { 'click': async () => {
                 this._authController.logout()
-                    .then(res => {
+                    .then(() => {
                         router.go('/');
                     });
             } }
@@ -288,7 +288,7 @@ class ChatComponent extends Block {
                     el.classList.add('clickable');
                     el.textContent = user.login;
                     el.dataset['id'] = String(index);
-                    el.addEventListener('click', (ev) => {
+                    el.addEventListener('click', () => {
                         this._usersToChat.push(user);
                         const newEl = document.createElement('li');
                         newEl.classList.add('clickable', 'users-in-chat__item');
@@ -296,7 +296,7 @@ class ChatComponent extends Block {
                         const removeEl = document.createElement('span');
                         removeEl.textContent = 'Убрать';
 
-                        removeEl.addEventListener('click', (ev) => {
+                        removeEl.addEventListener('click', () => {
                             this._usersToChat = this._usersToChat.filter(item => item.login !== user.login);
                             newEl.remove();
                         });

@@ -1,4 +1,4 @@
-import { Block, Props } from './block';
+import { Block } from './block';
 
 function isEqual(lhs: string, rhs: string) {
     return lhs === rhs;
@@ -23,12 +23,10 @@ class Route {
     private _pathname: string;
     private _blockClass: { new() : Block, getStyles(): string } ;
     private _block: Block | null;
-    private _props: Props;
-    constructor(pathname: string, view:  { new() : Block, getStyles(): string }, props: Props) {
+    constructor(pathname: string, view:  { new() : Block, getStyles(): string }) {
         this._pathname = pathname;
         this._blockClass = view;
         this._block = null;
-        this._props = props;
     }
 
     navigate(pathname: string) {
@@ -62,13 +60,11 @@ class Router {
     routes: Route[];
     history: History;
     private _currentRoute: Route | undefined;
-    private _rootQuery: string;
     static __instance: Router;
-    constructor(rootQuery: string) {
+    constructor() {
         this.routes = [];
         this.history = window.history;
         this._currentRoute = undefined;
-        this._rootQuery = rootQuery;
 
         if (Router.__instance) {
             return Router.__instance;
@@ -78,9 +74,7 @@ class Router {
     }
 
     use(pathname: string, block:  { new() : Block, getStyles(): string }) {
-        const route = new Route(pathname, block, {
-            rootQuery: this._rootQuery,
-        });
+        const route = new Route(pathname, block);
         this.routes.push(route);
         return this;
     }
@@ -122,4 +116,4 @@ class Router {
     }
 }
 
-export default new Router('#app');
+export default new Router();
