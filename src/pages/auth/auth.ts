@@ -35,7 +35,7 @@ class AuthComponent extends Block {
         this.components = { buttonComponent, loginComponent, passwordComponent, regisctrationButton };
     }
 
-    onSubmit(ev: Event) {
+    async onSubmit(ev: Event) {
         ev.preventDefault();
 
         if (this.components) {
@@ -55,11 +55,12 @@ class AuthComponent extends Block {
             });
 
             if (!isError) {
-                this._authController.signIn(obj).then((res) => {
-                    if (res?.status === 200) {
-                        router.go('/messenger');
-                    }
-                });
+                await this._authController.logout();
+                const res = await this._authController.signIn(obj);
+
+                if (res?.status === 200) {
+                    router.go('/messenger');
+                }
             }
         }
     }
