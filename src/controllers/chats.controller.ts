@@ -10,7 +10,6 @@ export class ChatController {
     createChat(title: string) {
         return this._chatApi.createChat(title)
             .then(res => {
-                console.log(res);
                 return JSON.parse((res as XMLHttpRequest).response);
             }).catch(err => console.error(err));
     }
@@ -33,6 +32,18 @@ export class ChatController {
 
     getToken(chatId: string): Promise<{token: string}> {
         return this._chatApi.getToken(chatId)
-            .then(res => JSON.parse(res.response));
+            .then(res => JSON.parse(res.response))
+            .catch(err => console.error(err));
+    }
+
+    getUsers(chatId: string) {
+        return this._chatApi.getUsers(chatId)
+            .then(res => JSON.parse(res.response))
+            .catch(err => console.error(err));
+    }
+
+    deleteChatUsers(chatId: string, userId: string) {
+        return this._chatApi.deleteChatUser(chatId, userId)
+            .catch(err => console.error(err));
     }
 }

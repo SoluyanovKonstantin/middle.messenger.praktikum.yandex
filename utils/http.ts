@@ -72,7 +72,6 @@ class HTTPTransport {
             };
 
             const handleError = (err: ProgressEvent) => {
-                console.log(err);
                 rej(err);
             };
           

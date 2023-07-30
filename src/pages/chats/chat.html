@@ -14,11 +14,16 @@ export default `
             <createChatInputComponent class="input-component create-chat-name"></createChatInputComponent>
             <addUserToChatBeforeCreateChatComponent class="input-component"></addUserToChatBeforeCreateChatComponent>
             <ul class="users-for-chat"></ul>
+            <ul class="users-in-chat"></ul>
             <createChatButtonComponent class="create-chat-popup__btn"></createChatButtonComponent>
         </section>
         <section class="add-users-chat-popup popup-with-users">
             <addUserToChatComponent class="input-component"></addUserToChatComponent>
             <ul class="users-for-chat"></ul>
+
+            <ul class="users-in-chat">
+                <li for="let user of chatUsers"><span>{{ user.login }}</span><span data-id="{{ user.id }}" class="remove-user clickable">Удалить</span></li>
+            </ul>
             <addUserToChatButtonComponent class="create-chat-popup__btn"></addUserToChatButtonComponent>
         </section>
         <div id="shadow" class="shadow"></div>

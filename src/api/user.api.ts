@@ -16,6 +16,13 @@ export interface IUserData {
     avatar: string
 }
 
+export type UpdateUserData = Omit<IUserData, 'id' | 'avatar'>
+
+export type ChangePasswordData = {
+    oldPassword: string,
+    newPassword: string
+}
+
 export class UserApi {
     private _url: string;
     private _http: HTTPTransport;
@@ -26,6 +33,14 @@ export class UserApi {
 
     searchUser(login: string) {
         return this._http.post(this._url + 'search', { data: { login } });
+    }
+
+    changeUserData(data: UpdateUserData) {
+        return this._http.put(this._url + 'profile', { data });
+    }
+
+    changeUserPassword(data: ChangePasswordData) {
+        return this._http.put(this._url + 'password', { data });
     }
 
 }

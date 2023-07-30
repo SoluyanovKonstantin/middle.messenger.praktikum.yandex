@@ -4,13 +4,23 @@ import { Block } from '../../../utils/block';
 import { InputComponent } from '../../components/input/input';
 import { ButtonComponent } from '../../components/button/button';
 import { regExps } from '../../../utils/checkInput';
+import { AuthController } from '../../controllers/auth.controller';
+import { ChangePasswordData, IUserData, UpdateUserData } from '../../api/user.api';
+import { UserController } from '../../controllers/user.controller';
 
 class SettingsComponent extends Block {
+    private _authController: AuthController;
+    private _userController: UserController;
+
     constructor() {
+
+
         super('chat-component', {}, html, style);
+        this._authController = new AuthController();
+        this._userController = new UserController();
 
         this.initComponents();
-
+        this._getUserInfo();
         SettingsComponent._style = style + InputComponent._style + ButtonComponent._style;
     }
 
@@ -43,8 +53,45 @@ class SettingsComponent extends Block {
                 }
             });
 
-            console.log(obj);
+            if (type === 'data') {
+                this._userController.changeUserData(obj as UpdateUserData)
+                    .then(res => {
+                        if (res?.status === 200) {
+                            this._showMessage('Изменения сохранены');
+                        }
+                    });
+            } else {
+                this._userController.changeUserPassword(obj as ChangePasswordData)
+                    .then(res => {
+                        if (res?.status === 200) {
+                            this._showMessage('Пароль изменен');
+                        }
+                    });
+            }
         }
+    }
+
+    private _getUserInfo() {
+        this._authController.getUser()
+            .then((res: IUserData) => {
+                (document.querySelector('input[name=first_name]') as HTMLInputElement).value = res.first_name;
+                (document.querySelector('input[name=second_name]') as HTMLInputElement).value = res.second_name;
+                (document.querySelector('input[name=display_name]') as HTMLInputElement).value = res.display_name;
+                (document.querySelector('input[name=login]') as HTMLInputElement).value = res.login;
+                (document.querySelector('input[name=email]') as HTMLInputElement).value = res.email || '';
+                (document.querySelector('input[name=phone]') as HTMLInputElement).value = res.phone || '';
+            });
+    }
+
+    private _showMessage(message: string) {
+        const popup = document.createElement('div');
+        popup.classList.add('alert-popup');
+        popup.textContent = message;
+        document.body.append(popup);
+
+        setTimeout(() => {
+            popup.remove();
+        }, 5000);
     }
 }
 

@@ -29,4 +29,12 @@ export class ChatApi {
         return this._http.post(this._url + 'token/' + chatId);
     }
 
+    getUsers(chatId: string) {
+        return this._http.get(this._url + chatId + '/users');
+    }
+
+    deleteChatUser(chatId:string, userId: string) {
+        return this._http.delete(this._url + 'users', {data: { users: [userId], chatId }});
+    }
+
 }

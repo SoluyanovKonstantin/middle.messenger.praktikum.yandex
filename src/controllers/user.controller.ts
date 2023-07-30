@@ -1,4 +1,4 @@
-import { UserApi, IUserData } from '../api/user.api';
+import { UserApi, IUserData, UpdateUserData, ChangePasswordData } from '../api/user.api';
 
 
 export class UserController {
@@ -15,6 +15,14 @@ export class UserController {
             }).catch(err => console.error(err));
     }
 
+    changeUserData(data: UpdateUserData) {
+        return this._userApi.changeUserData(data)
+            .catch(err => console.error(err));
+    }
 
+    changeUserPassword(data: ChangePasswordData) {
+        return this._userApi.changeUserPassword(data)
+            .catch(err => console.error(err));
+    }
 
 }

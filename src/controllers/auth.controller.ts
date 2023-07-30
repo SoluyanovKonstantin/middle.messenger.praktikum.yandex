@@ -10,7 +10,6 @@ export class AuthController {
     signIn(data: ISignInData) {
         return this._authApi.signIn(data)
             .then(res => {
-                console.log(res);
                 return res;
             }).catch(err => console.error(err));
     }
@@ -18,7 +17,6 @@ export class AuthController {
     signUp(data: ISignUpData) {
         return this._authApi.signUp(data)
             .then(res => {
-                console.log(res);
                 return res;
             })
             .catch(err => console.error(err));
