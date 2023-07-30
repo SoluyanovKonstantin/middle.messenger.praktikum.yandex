@@ -271,11 +271,13 @@ class ChatComponent extends Block {
                 const elements: Node[] = [];
                 val.forEach((user, index) => {
                     const el = document.createElement('li');
+                    el.classList.add('clickable');
                     el.textContent = user.login;
                     el.dataset['id'] = String(index);
                     el.addEventListener('click', (ev) => {
                         this._usersToChat.push(user);
                         const newEl = document.createElement('li');
+                        newEl.classList.add('clickable', 'users-in-chat__item');
                         newEl.textContent = user.login;
                         const removeEl = document.createElement('span');
                         removeEl.textContent = 'Убрать';

@@ -265,3 +265,26 @@
 .clickable {
     cursor: pointer;
 }
+
+.users-in-chat,
+.users-for-chat {
+    list-style: none;
+
+}
+
+.users-for-chat {
+    height: 100px;
+    overflow-y: auto;
+    border: 1px solid var(--black);
+}
+
+.users-in-chat {
+    padding-left: 0;
+    display: flex;
+    flex-direction: column;
+
+    &__item {
+        display: flex;
+        justify-content: space-between;
+    }
+}
