@@ -221,7 +221,7 @@
 
     &__wrapper {
         display: none;
-        width: 0px;
+        width: 0;
         overflow-y: hidden;
     }
 }
@@ -230,7 +230,7 @@
     top: 0;
     left: 0;
     position: absolute;
-    background-color: rgba(0, 0, 0, 80%);
+    background-color: var(--shadow);
     width: 100dvw;
     height: 100dvh;
     z-index: 1;
