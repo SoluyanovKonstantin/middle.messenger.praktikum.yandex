@@ -293,7 +293,7 @@
 .send-button {
     position: absolute;
     border-radius: 50%;
-    right: 60px;
+    right: 5vw;
     bottom: 34px;
     width: 30px;
     height: 30px;
@@ -307,4 +307,8 @@
     left: 52px;
     bottom: 12px;
     font-size: 11px;
+    width: 90%;
+    display: inline-block;
+    left: 50%;
+    translate: -50%;
 }
