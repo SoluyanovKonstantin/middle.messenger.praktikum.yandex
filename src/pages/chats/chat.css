@@ -44,6 +44,7 @@
 
     &__list {
         padding-left: 0;
+        overflow: auto;
     }
 }
 

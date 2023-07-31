@@ -14,8 +14,8 @@ export class ChatController {
             }).catch(err => console.error(err));
     }
 
-    getChats() {
-        return this._chatApi.getChats()
+    getChats(offset: number, limit: number) {
+        return this._chatApi.getChats(offset, limit)
             .then(res => {
                 return JSON.parse((res as XMLHttpRequest).response) as unknown[];
             })

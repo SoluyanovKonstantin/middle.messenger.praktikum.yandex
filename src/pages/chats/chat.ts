@@ -64,6 +64,7 @@ class ChatComponent extends Block {
                 if (createChatElement) {
                     createChatElement.style.display = 'flex';
                 }
+
             }
 
             if ((ev?.target as HTMLElement)?.closest('#settings-link')) {
@@ -120,7 +121,7 @@ class ChatComponent extends Block {
                             type: 'get old'
                         }));
 
-                        this._messageIndex = 21;
+                        this._messageIndex = 20;
 
                         const interval = setInterval(() => {
                             if (this._chatSocket) {
@@ -204,14 +205,7 @@ class ChatComponent extends Block {
         this._webSocketController = new WebsocketController();
         ChatComponent._style = InputComponent.getStyles() + style  + ButtonComponent.getStyles();
 
-        this._chatController.getChats().then((res) => {
-            const chats = res.map((chat, index) => {
-                (chat as {index: number}).index = index;
-                return chat;
-            });
-            this.setProps({ arrays: { chats }, chatTitle: this._chatTitle });
-            this._chats = chats as {id: number}[];
-        });
+        this._getChats();
 
         this._authController.getUser().then(res => {
             this._userId = res.id;
@@ -239,6 +233,7 @@ class ChatComponent extends Block {
                 const chatName = (document.querySelector('.create-chat-name input') as HTMLInputElement).value;
                 const chat: {id: number} = await this._chatController.createChat(chatName) as {id: number};
                 await this._chatController.addUserToChat({ users: this._usersToChat.map(user => Number(user.id)), chatId: chat.id });
+                this._getChats();
             } }
         }).getContent();
 
@@ -319,6 +314,26 @@ class ChatComponent extends Block {
             .then(res => {
                 this._chatUsers = res;
             });
+    }
+
+    private async _getChats() {
+        let newChats: unknown[] = [];
+        const limit = 10;
+        let offset = 0;
+        this._chats = [];
+
+        do {
+            const res = await this._chatController.getChats(offset, limit);
+            
+            newChats = res.map((chat, index) => {
+                (chat as {index: number}).index = index;
+                return chat;
+            });
+            this._chats.push(...newChats as {id: number}[]);
+            offset += limit;
+        } while (newChats.length === limit);
+
+        this.setProps({ arrays: { chats: this._chats }, chatTitle: this._chatTitle });
     }
 }
 

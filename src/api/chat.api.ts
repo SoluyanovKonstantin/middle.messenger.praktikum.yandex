@@ -17,8 +17,8 @@ export class ChatApi {
         return this._http.post(this._url, { data: { title } });
     }
 
-    getChats() {
-        return this._http.get(this._url);
+    getChats(offset: number, limit: number) {
+        return this._http.get(this._url + `?offset=${offset}&limit=${limit}`);
     }
 
     addUserToChat(data: IAddUserToChatData) {

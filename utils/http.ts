@@ -66,6 +66,7 @@ class HTTPTransport {
             if (!(data instanceof FormData)) {
                 xhr.setRequestHeader('Content-Type', options.ContentType || 'application/json');
             }
+            xhr.setRequestHeader('Accept', 'application/json');
             xhr.withCredentials = true;
             let formData = data;
 
