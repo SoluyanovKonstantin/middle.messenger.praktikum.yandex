@@ -1,4 +1,5 @@
 assets/* /assets/:splat 200
 /vite.svg /vite.svg
 /icon.svg /icon.svg
+/icons8-send-button-30.png /icons8-send-button-30.png
 /* /index.html 200
