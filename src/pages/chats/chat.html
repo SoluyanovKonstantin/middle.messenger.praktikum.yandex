@@ -24,6 +24,7 @@ export default `
                 <li for="let user of chatUsers" class="users-in-chat__item"><span>{{ user.login }}</span><span data-id="{{ user.id }}" class="remove-user clickable">Удалить</span></li>
             </ul>
             <addUserToChatButtonComponent class="create-chat-popup__btn"></addUserToChatButtonComponent>
+            <removeChatButton></removeChatButton>
         </section>
         <div id="shadow" class="shadow"></div>
     </div>
@@ -54,7 +55,11 @@ export default `
                 <p class="chat__text">{{ message.content }}</p>
             </li>
         </ul>
-        <textarea id="chat-textarea" type="text" placeholder="Писать сюда..." class="input chat__input" name="message"></textarea>
+        <div>
+            <textarea id="chat-textarea" type="text" placeholder="Писать сюда..." class="input chat__input" name="message"></textarea>
+            <button class="send-button" id="send-message"><img src="icons8-send-button-30.png" alt=""></button>
+            <span class="send-description">Отправка - ctrl + Enter</span>
+        </div>
     </section>
 
 </main>

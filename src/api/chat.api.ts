@@ -37,4 +37,8 @@ export class ChatApi {
         return this._http.delete(this._url + 'users', {data: { users: [userId], chatId }});
     }
 
+    removeChat(chatId: number) {
+        return this._http.delete(this._url, { data: {chatId} });
+    }
+
 }

@@ -289,3 +289,22 @@
         justify-content: space-between;
     }
 }
+
+.send-button {
+    position: absolute;
+    border-radius: 50%;
+    right: 60px;
+    bottom: 34px;
+    width: 30px;
+    height: 30px;
+    border: 0;
+    background: 0;
+    cursor: pointer;
+}
+
+.send-description {
+    position: absolute;
+    left: 52px;
+    bottom: 12px;
+    font-size: 11px;
+}

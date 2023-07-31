@@ -46,4 +46,9 @@ export class ChatController {
         return this._chatApi.deleteChatUser(chatId, userId)
             .catch(err => console.error(err));
     }
+
+    removeChat(chatId: number) {
+        return this._chatApi.removeChat(chatId)
+            .catch(err => console.error(err));
+    }
 }

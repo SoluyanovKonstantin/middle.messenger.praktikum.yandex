@@ -10,7 +10,7 @@
     cursor: pointer;
     border: 0;
 
-    &--exit {
+    &--red {
         padding: 10px;
         background-color: var(--red);
     }

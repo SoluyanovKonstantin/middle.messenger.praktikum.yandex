@@ -67,6 +67,14 @@ class ChatComponent extends Block {
 
             }
 
+            if ((ev?.target as HTMLElement)?.closest('#send-message')) {
+                const message = (document.querySelector('#chat-textarea') as HTMLTextAreaElement)?.value;
+                this._chatSocket?.send(JSON.stringify({
+                    content: message,
+                    type: 'message',
+                }));
+            }
+
             if ((ev?.target as HTMLElement)?.closest('#settings-link')) {
                 router.go('/settings');
             }
@@ -171,7 +179,6 @@ class ChatComponent extends Block {
 
             if (isControlPressed && isEnterPressed) {
                 const message = ((ev?.target as HTMLElement).closest('#chat-textarea') as HTMLTextAreaElement)?.value;
-                console.log(message);
                 this._chatSocket?.send(JSON.stringify({
                     content: message,
                     type: 'message',
@@ -242,12 +249,39 @@ class ChatComponent extends Block {
             events: { 'click': async () => {
                 if (this._chatId) {
                     await this._chatController.addUserToChat({ users: this._usersToChat.map(user => Number(user.id)), chatId: this._chatId});
+                    const usersInChat = document.querySelector('.add-users-chat-popup .users-in-chat');
+                    const elements: Element[] = [];
+                    this._usersToChat.forEach(user => {
+                        const el = document.createElement('li');
+                        el.classList.add('users-in-chat__item');
+                        const loginEl = document.createElement('span');
+                        loginEl.textContent = user.login;
+                        const removeEl = document.createElement('span');
+                        removeEl.dataset['id'] = user.id;
+                        removeEl.classList.add('remove-user', 'clickable');
+                        removeEl.textContent = 'Удалить';
+                        el.append(loginEl, removeEl);
+                        elements.push(el);
+                        usersInChat?.lastChild?.remove();
+                    });
+
+                    usersInChat?.append(...elements);
                 }
             } }
         }).getContent();
+
+        const removeChatButton = new ButtonComponent({
+            text: 'Удалить чат',
+            class: 'button--red',
+            events: {
+                'click': async () => {
+                    this._removeChat();
+                }
+            }
+        }).getContent();
         const exitButton = new ButtonComponent({
             text: 'Выйти',
-            class: 'button--exit',
+            class: 'button--red',
             events: { 'click': async () => {
                 this._authController.logout()
                     .then(() => {
@@ -269,7 +303,15 @@ class ChatComponent extends Block {
                 this._addUsers((ev?.target as HTMLInputElement).closest('.popup-with-users') as HTMLElement, login);
             }
         }} ).getContent();
-        this.components = { createChatButtonComponent, createChatInputComponent, addUserToChatBeforeCreateChatComponent, exitButton, addUserToChatComponent, addUserToChatButtonComponent };
+        this.components = { 
+            createChatButtonComponent, 
+            createChatInputComponent, 
+            addUserToChatBeforeCreateChatComponent, 
+            exitButton, 
+            addUserToChatComponent, 
+            addUserToChatButtonComponent, 
+            removeChatButton 
+        };
     }
 
     private _addUsers(parentElement: HTMLElement, login: string) {
@@ -334,6 +376,23 @@ class ChatComponent extends Block {
         } while (newChats.length === limit);
 
         this.setProps({ arrays: { chats: this._chats }, chatTitle: this._chatTitle });
+    }
+
+    private async _removeChat() {
+        if (this._chatId) {
+            await this._chatController.removeChat(this._chatId);
+        }
+
+        this._chatId = undefined;
+        this._chatTitle = ' ';
+        this._messages = [];
+        this._messageIndex = 0;
+        this._chatUsers = [];
+        
+        this._chatSocket?.close(1000);
+        this._chatSocket = undefined;
+
+        this._getChats();
     }
 }
 
