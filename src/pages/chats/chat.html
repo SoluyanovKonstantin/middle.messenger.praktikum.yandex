@@ -1,56 +1,66 @@
 export default `
 <main class="body">
+    <div id="left-side-menu-wrapper" class="left-side-menu__wrapper">
+        <section class="left-side-menu">
+            <ul class="left-side-menu__list">
+                <li class="left-side-menu__list-item" id="create-chat">Создать чат</li>
+                <li class="left-side-menu__list-item" id="settings-link">Настройки</li>
+            </ul>
+            <div class="buttons">
+                <exitButton></exitButton>
+            </div>
+        </section>
+        <section class="create-chat-popup popup-with-users">
+            <createChatInputComponent class="input-component create-chat-name"></createChatInputComponent>
+            <addUserToChatBeforeCreateChatComponent class="input-component"></addUserToChatBeforeCreateChatComponent>
+            <ul class="users-for-chat"></ul>
+            <ul class="users-in-chat"></ul>
+            <createChatButtonComponent class="create-chat-popup__btn"></createChatButtonComponent>
+        </section>
+        <section class="add-users-chat-popup popup-with-users">
+            <addUserToChatComponent class="input-component"></addUserToChatComponent>
+            <ul class="users-for-chat"></ul>
+            <ul class="users-in-chat">
+                <li for="let user of chatUsers" class="users-in-chat__item"><span>{{ user.login }}</span><span data-id="{{ user.id }}" class="remove-user clickable">Удалить</span></li>
+            </ul>
+            <addUserToChatButtonComponent class="create-chat-popup__btn"></addUserToChatButtonComponent>
+            <removeChatButton></removeChatButton>
+        </section>
+        <div id="shadow" class="shadow"></div>
+    </div>
     <section class="chat-preview__container">
         <div class="search__wrapper">
-            <div class="sandwich__wrapper">
+            <div id="click-at-sandwich" (click)="showLeftSideMenu()" class="sandwich__wrapper">
                 <div class="sandwich"></div>
             </div>
             <input placeholder="Поиск" class="input search" type="search" name="" id="">
         </div>
     
         <ul class="chat-preview__list">
-            <li class="chat-preview">
+            <li for="let chat of chats" data-id="chat-{{ chat.id }}" class="chat-preview">
                 <img class="chat-preview__image" src="/icon.svg" alt="">
                 <div class="chat-preview__right-side">
-                    <h1 class="chat-preview__text chat-preview__text--title">Название диалога</h1>
-                    <p class="chat-preview__text">Последнее сообщение из ...</p>
-                </div>
-            </li>
-            <li class="chat-preview">
-                <img class="chat-preview__image" src="/icon.svg" alt="">
-                <div class="chat-preview__right-side">
-                    <h1 class="chat-preview__text chat-preview__text--title">Название диалога</h1>
-                    <p class="chat-preview__text">Последнее сообщение из ...</p>
-                </div>
-            </li>
-            <li class="chat-preview">
-                <img class="chat-preview__image" src="/icon.svg" alt="">
-                <div class="chat-preview__right-side">
-                    <h1 class="chat-preview__text chat-preview__text--title">Название диалога</h1>
-                    <p class="chat-preview__text">{{ message }}</p>
+                    <h1 class="chat-preview__text chat-preview__text--title">{{ chat.title }}</h1>
                 </div>
             </li>
         </ul>
-        <div class="buttons">
-            <a href="/settings" class="buttons__item buttons__item--big" type="submit">Настройки</a>
-        </div>
     </section>
     <section class="chat">
+        <div class="chat__title">
+            <span class="clickable" id="chat-settings">{{ chatTitle }}</span>
+        </div>
         <ul class="chat__feed">
-            <li class="chat__message chat__message--left">
+            <li for="let message of messages" class="chat__message {{ message.class }}">
                 <img class="chat-preview__image" src="/icon.svg" alt="">
-                <p class="chat__text">{{ fullMessage }}</p>
-            </li>
-            <li class="chat__message chat__message--right">
-                <img class="chat-preview__image" src="/icon.svg" alt="">
-                <p class="chat__text">B частности, глубокий уровень погружения создаёт предпосылки для новых принципов формирования материально-технической и кадровой базы. Господа, перспективное планирование обеспечивает актуальность кластеризации усилий. Принимая во внимание показатели успешности, курс на социально-ориентированный национальный проект способствует повышению качества глубокомысленных рассуждений.</p>
-            </li>
-            <li class="chat__message chat__message--left">
-                <img class="chat-preview__image" src="/icon.svg" alt="">
-                <p class="chat__text">B частности, глубокий уровень погружения создаёт предпосылки для новых принципов формирования материально-технической и кадровой базы. Господа, перспективное планирование обеспечивает актуальность кластеризации усилий. Принимая во внимание показатели успешности, курс на социально-ориентированный национальный проект способствует повышению качества глубокомысленных рассуждений.</p>
+                <p class="chat__text">{{ message.content }}</p>
             </li>
         </ul>
-        <textarea type="text" placeholder="Писать сюда..." class="input chat__input" name="message"></textarea>
+        <div>
+            <textarea id="chat-textarea" type="text" placeholder="Писать сюда..." class="input chat__input" name="message"></textarea>
+            <button class="send-button" id="send-message"><img src="icons8-send-button-30.png" alt=""></button>
+            <span class="send-description">Отправка - ctrl + Enter</span>
+        </div>
     </section>
+
 </main>
 `

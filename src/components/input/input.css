@@ -36,18 +36,19 @@
     &--alert-password::after {
         content: 'От 8 до 40 символов, обязательно хотя бы одна заглавная буква и цифра';
     }
-}
 
-.input {
-    width: 100%;
-    height: 100%;
-    border-radius: 15px;
-    border: 0;
-    box-shadow: 0 3.7px 3.7px rgb(0 0 0 / 25%);
-    padding-left: 15px;
-    box-sizing: border-box;
-
-    &--alert {
-        border: 1px solid var(--red);
+    .input {
+        width: 100%;
+        height: 100%;
+        border-radius: 15px;
+        border: 0;
+        box-shadow: 0 3.7px 3.7px rgb(0 0 0 / 25%);
+        padding-left: 15px;
+        box-sizing: border-box;
+        margin: 0;
+    
+        &--alert {
+            border: 1px solid var(--red);
+        }
     }
 }
