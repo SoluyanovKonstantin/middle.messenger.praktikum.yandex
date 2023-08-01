@@ -114,7 +114,7 @@ class ChatComponent extends Block {
                     this._chatSocket = undefined;
                 }
 
-                this._chatTitle = (ev?.target as HTMLElement)?.closest('.chat-preview')?.querySelector('.chat-preview__text--title')?.textContent || ' ';
+                this._chatTitle = (ev?.target as HTMLElement)?.closest('.chat-preview')?.closest('.chat-preview')?.querySelector('.chat-preview__text--title')?.textContent || ' ';
                 this._chatId = Number(chatId);
 
                 if (chatId !== undefined && this._userId) {
