@@ -22,5 +22,5 @@
     "noFallthroughCasesInSwitch": true
   },
   "include": ["src"],
-  "exclude": ["**/**.js"]
+  "exclude": ["**/**.js", "**/public/**"]
 }
