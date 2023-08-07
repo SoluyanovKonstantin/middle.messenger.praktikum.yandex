@@ -12,7 +12,7 @@ export class TemplateEngine {
         this.style = style;
     }
 
-    findClosingTagIndex(tag: string, startIndex: number, template: string) {
+    private _findClosingTagIndex(tag: string, startIndex: number, template: string) {
         let nestCount = 0;
         let string = '';
         const shift = template.slice(0,startIndex + tag.length + 2).length;
@@ -35,7 +35,7 @@ export class TemplateEngine {
         return null;
     }
 
-    handleLoopsInTemplate(template: string, variables: Props) {
+    private _handleLoopsInTemplate(template: string, variables: Props) {
         const forInTemplateRegExp = /<.* for="let [a-zA-Z]* of [a-zA-Z]*".*>/g;
         let forInTemplate : RegExpExecArray | null;
         let newTemplate = template;
@@ -54,8 +54,8 @@ export class TemplateEngine {
                 }
             }
             const startIndex = forInTemplate?.index;
-            if (tag && startIndex) {
-                const closingTagIndex = this.findClosingTagIndex(tag, startIndex, newTemplate) || 0;
+            if (tag && startIndex !== undefined) {
+                const closingTagIndex = this._findClosingTagIndex(tag, startIndex, newTemplate) || 0;
                 const forTemplate = newTemplate.slice(startIndex, closingTagIndex + 1);
                 let finalForTemplate = '';
                 const array = variables.arrays?.[arrayName] || []; 
@@ -87,7 +87,7 @@ export class TemplateEngine {
         
         let newTemplate = this.template;
         
-        newTemplate = this.handleLoopsInTemplate(newTemplate, variables);
+        newTemplate = this._handleLoopsInTemplate(newTemplate, variables);
 
         newTemplate.match(variableInTemplateRegExp)?.forEach(key => {
             const trimmedKeyWithoutBracket = key.replaceAll(/\{\{ | \}\}/g, '');
