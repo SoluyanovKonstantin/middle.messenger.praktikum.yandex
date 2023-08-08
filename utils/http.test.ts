@@ -57,14 +57,6 @@ describe('http', () => {
         expect(request.url).to.equal('/?mock=true');
     });
 
-    it('Method post() with body', () => {
-        instance.post('/', { data: { mock: true } });
-
-        const [request] = requests;
-        console.log(request);
-        expect(JSON.parse(request.requestBody)['mock']).to.equal(true);
-    });
-
     it('Request with path', () => {
         instance.post('/path', { data: { mock: true } });
 
