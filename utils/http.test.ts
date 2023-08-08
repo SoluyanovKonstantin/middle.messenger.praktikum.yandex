@@ -61,6 +61,7 @@ describe('http', () => {
         instance.post('/', { data: { mock: true } });
 
         const [request] = requests;
+        console.log(request);
         expect(JSON.parse(request.requestBody)['mock']).to.equal(true);
     });
 

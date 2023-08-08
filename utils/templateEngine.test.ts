@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { TemplateEngine } from './templateEngine.js';
+import { TemplateEngine } from './templateEngine';
 
 
 describe('templateEngine', () => {
