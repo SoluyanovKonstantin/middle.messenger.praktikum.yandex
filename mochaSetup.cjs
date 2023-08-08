@@ -18,7 +18,7 @@ global.HTMLElement = window.HTMLElement;
 // }
 
 require.extensions['.html'] = function () {
-    module.exports = () => ({});
+    module.exports = () => ({default: 'dddd'});
 };
 
 require.extensions['.css'] = function () {

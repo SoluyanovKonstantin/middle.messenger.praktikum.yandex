@@ -1,10 +1,10 @@
 import { expect } from 'chai';
-import { TemplateEngine } from './templateEngine.js';
+import { TemplateEngine } from './templateEngine';
 
 describe('templateEngine', () => {
 
     it('check that templateEngine returns', () => {
-        const templateEngine = new TemplateEngine('<div>{{ variable }}</div>', 'styles');
+        const templateEngine = new TemplateEngine('<div></div>', 'styles');
 
         const page = templateEngine.compile({variable: 'dqwdqwdqw dqwdqwd'}).template;
         expect(page instanceof HTMLElement).equal(true);
@@ -20,7 +20,7 @@ describe('templateEngine', () => {
     it('check loops in template engine', () => {
         const templateEngine = new TemplateEngine('<div for="let chat of chats" class="chat-preview">{{ chat.id }}</div>', 'styles');
 
-        const page = templateEngine.compile({variable: 'dqwdqwdqw dqwdqwd', 
+        const page = templateEngine.compile({
             arrays: {
                 chats: [{
                     id: 202,

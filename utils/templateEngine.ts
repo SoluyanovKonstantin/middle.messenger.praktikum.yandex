@@ -89,13 +89,15 @@ export class TemplateEngine {
         
         newTemplate = this._handleLoopsInTemplate(newTemplate, variables);
 
-        newTemplate.match(variableInTemplateRegExp)?.forEach(key => {
-            const trimmedKeyWithoutBracket = key.replaceAll(/\{\{ | \}\}/g, '');
-            const variable = variables[trimmedKeyWithoutBracket];
-            if (variable && typeof variable === 'string') {
-                newTemplate = newTemplate.replaceAll(key, variable);
-            }
-        });
+        if (newTemplate.match) {
+            newTemplate.match(variableInTemplateRegExp)?.forEach(key => {
+                const trimmedKeyWithoutBracket = key.replaceAll(/\{\{ | \}\}/g, '');
+                const variable = variables[trimmedKeyWithoutBracket];
+                if (variable && typeof variable === 'string') {
+                    newTemplate = newTemplate.replaceAll(key, variable);
+                }
+            });
+        }
 
         const div = document.createElement('div');
         div.innerHTML = newTemplate;

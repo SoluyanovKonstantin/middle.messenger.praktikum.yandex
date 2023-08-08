@@ -1,6 +1,6 @@
 import { expect } from 'chai';
-import router from './router.js';
-import { Block } from './block.js';
+import router from './router';
+import { Block } from './block';
 
 class MockClass extends Block {
     constructor() {

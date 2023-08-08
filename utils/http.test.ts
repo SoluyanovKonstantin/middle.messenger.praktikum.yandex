@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import sinon, { SinonFakeXMLHttpRequestStatic, SinonFakeXMLHttpRequest } from 'sinon';
 import { expect } from 'chai';
-import {HTTPTransport} from './http.js';
+import {HTTPTransport} from './http';
 
 describe('http', () => {
     let xhr: SinonFakeXMLHttpRequestStatic;

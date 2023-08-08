@@ -1,6 +1,6 @@
-import { Block, Props } from '../../../utils/block';
-import html from './button.html?inline';
-import style from './button.css?inline';
+import { Block, Props } from '../../../utils/block.ts';
+import html from './button.html';
+import style from './button.css';
 
 class ButtonComponent extends Block {
     constructor(props: Props = {}) {

@@ -1,15 +1,15 @@
 {
   "ts-node": {
-    "files": true
+    "files": true,
+    "esm": true
   },
   "compilerOptions": {
     "target": "ES2021",
     "useDefineForClassFields": true,
-    "module": "ESNext",
+    "module": "CommonJS",
     "lib": ["ES2021", "DOM", "DOM.Iterable"],
     "skipLibCheck": true,
 
-    "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
@@ -22,8 +22,11 @@
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+    "esModuleInterop": true,
+    "allowJs": true,
+    "checkJs": true
   },
-  "include": ["src"],
+  "include": ["src", "./declaration.d.ts"],
   "exclude": ["**/**.js", "**/public/**"]
 }
