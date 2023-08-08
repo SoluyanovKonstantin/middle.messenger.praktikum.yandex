@@ -24,3 +24,7 @@ require.extensions['.html'] = function () {
 require.extensions['.css'] = function () {
     module.exports = () => ({});
 };
+
+require.extensions['.html?inline'] = function () {
+    module.exports = () => ({default: 'dddd'});
+};

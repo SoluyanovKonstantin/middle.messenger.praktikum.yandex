@@ -10,5 +10,5 @@ export default {
         rollupOptions: {
             input: resolve(__dirname, 'index.html'),
         },
-    }
+    },
 };
