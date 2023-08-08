@@ -67,3 +67,4 @@ class AuthComponent extends Block {
 }
 
 export { AuthComponent };
+

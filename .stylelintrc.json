@@ -6,10 +6,12 @@
     "**/*.js",
     "**/*.html",
     "**/*.svg",
+    "**/*.png",
     "**/*.json",
     "**/*.md",
     "**/*.mjs",
-    "**/_redirects"
+    "**/_redirects",
+    "**/*.cjs"
   ],
   "rules": {
     "rule-empty-line-before": "always",

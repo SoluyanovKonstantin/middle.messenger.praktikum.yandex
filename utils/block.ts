@@ -1,5 +1,5 @@
-import { TemplateEngine } from './templateEngine';
-import { EventBus } from './event-bus';
+import { TemplateEngine } from './templateEngine.ts';
+import { EventBus } from './event-bus.ts';
 
 export type Props = {
     events?: Record<string, (event?: Event) => void>,
